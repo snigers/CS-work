@@ -1,0 +1,62 @@
+<?php
+/**
+ * Форма всплывающего окна "Заказать звонок".
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$hidden = array('product_link','product_name','product_sku','product_size');
+$settingsContainer = $this->getCommonVar('settingsContainer');
+?>
+
+<?php $preLang = cmsController::getInstance()->getPreLang() ?>
+
+<form method="post" action="<?= $preLang ?>/webforms/sendCustom/" enctype="multipart/form-data" class="form webforms">
+	<?php if (count($variables['items'])): ?>
+		<?php
+		$selectedEmail = null;
+
+		foreach ($variables['items'] as $item) {
+			$selectedEmail = $item;
+			break;
+		}
+		?>
+
+		<input type="hidden" name="system_email_to" value="<?= $selectedEmail['id'] ?>" />
+	<?php endif; ?>
+
+	<?php foreach ($variables['groups']['group'] as $group): ?>
+		<?php foreach ($group['fields'] as $field): ?>
+            <? if(array_search($field['name'],$hidden) !== false): ?>
+                <input type="hidden" name="<?= $field['input_name'] ?>" id="form_<?= $field['name'] ?>_<?= $field['field_id'] ?>" />
+            <? else: ?>
+                <div class="line">
+                    <!--
+                    <div class="name"><?= $field['title'] ?><?= (isset($field['required']) ? ' * ' : '') ?></div>
+                    -->
+                    <div class="field">
+                        <?= $this->render($field, "data/form_field_placeholder/{$field['type']}") ?>
+                    </div>
+                </div>
+            <? endif; ?>
+
+		<?php endforeach; ?>
+	<?php endforeach; ?>
+
+	<div class="line">
+        <div class="line agree">
+            <input type="checkbox" name="agree" id="agree_check<?= $variables['form_id'] ?>" class="required">
+            <label for="agree_check<?= $variables['form_id'] ?>"><?= $this->parseTplMacros($settingsContainer->getValue('politics_form'),$settingsContainer->id) ?></label>
+        </div>
+	</div>
+
+	<input type="hidden" name="system_form_id" value="<?= $variables['form_id'] ?>" />
+	<input type="hidden" name="ref_onsuccess" value="<?= $preLang ?>/webforms/posted/<?= $variables['form_id'] ?>/" />
+
+	<?php
+	 //$this->renderCaptcha()
+	 ?>
+
+	 <div class="submit">
+			<button type="submit" class="submit_btn"><?= $this->translate('send') ?></button>
+		</div>
+</form>

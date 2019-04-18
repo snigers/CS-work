@@ -1,0 +1,55 @@
+<?php
+/**
+ * Блок с ценой и кнопкой "Купить" в превью товара.
+ *
+ * Для вида превью списком:
+ *   - Статус наличия товара
+ *   - Ссылка на комментарии товара
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var iUmiHierarchyElement $variables
+ */
+
+$product = $variables;
+?>
+
+<div class="list_quantity">
+	<p>
+		<?= $this->render($product, 'catalog/product/preview/stock_status') ?>
+	</p>
+
+	<p>
+		<a href="<?= $this->getCommentLink($product) ?>">
+			<?= $this->translate('comments') ?>: <?= $this->getCommentCount($product) ?>
+		</a>
+	</p>
+</div>
+
+<div class="info">
+	<div class="price">
+		<?= $this->render($product, 'emarket/old_price') ?>
+
+		<h3
+			umi:element-id="<?= $product->getId() ?>"
+			umi:field-name="price"
+			umi:empty="<?= $this->translate('price') ?>">
+			<?= $this->getPrice($product) ?>
+		</h3>
+	</div>
+
+	<a href="<?= $this->getCommentLink($product) ?>" class="gray_text comment_catalog_inline">
+		<img src="img/comment.png" alt="comment" />
+		<span><?= $this->getCommentCount($product) ?></span>
+	</a>
+
+	<a href="<?= $this->getAddToCartLink($product) ?>"
+	   class="add_to_cart_button transparent_btn goods_btn <?= $this->getBuyButtonClass($product) ?>">
+		<?= $this->translate('purchase') ?>
+	</a>
+
+	<p>
+		<a href="<?= $this->getProductComparisonLink($product) ?>">
+			<?= $this->getComparisonMessage($product) ?>
+		</a>
+	</p>
+</div>

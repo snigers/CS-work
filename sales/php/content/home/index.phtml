@@ -1,0 +1,124 @@
+<?php
+/**
+ * Главная страница:
+ *   - Блок со слайдером
+ *   - Блок акции с таймером
+ *   - Блок "Наши преимущества"
+ *   - Блок с новостями и опросом
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$page = $variables['page'];
+$sliderId = false;
+switch($this->getCommonVar('domain-id')){
+    case 1: {$sliderId = ($this->getCommonVar('lang_id') == 1)  ? 321 : 1095;}; break;
+    case 2: {$sliderId = ($this->getCommonVar('lang_id') == 1)  ? 2244 : 3784;}; break;
+}
+$slider = $this->macros('content', 'getSlider',[$sliderId]);
+$mainProducts = $this->macros('catalog', 'getMainProducts');
+$news = $this->macros('news', 'getMainNews');
+//$instagramm = $this->macros("content",'getInst');
+$instagramm = array();
+$advantages = $this->macrosCache('content','getAdvantages',[$page->id],'getAdvantages');
+?>
+<div class="cont">
+    <? if($slider['total']): ?>
+        <section class="main_slider left">
+            <div class="slider owl-carousel">
+                <?= $slider['html'] ?>
+            </div>
+        </section>
+    <? endif; ?>
+    <div class="clear"></div>
+    
+	<style>
+	
+	a.knopka {
+  color: black; /* цвет текста */
+  font-weight:bold;
+  text-decoration: none; /* убирать подчёркивание у ссылок */
+  user-select: none; /* убирать выделение текста */
+  background: #f9f4f1; /* фон кнопки */
+  padding: .7em 1.5em; /* отступ от текста */
+  outline: none; /* убирать контур в Mozilla */
+} 
+a.knopka:hover { background:#d6b69e; color:white; text-decoration:underline; } /* при наведении курсора мышки */
+a.knopka:active { background: #d6b69e; } /* при нажатии */
+	
+    </style>
+	
+	<? 
+	
+	
+	foreach($mainProducts as $i=>$item): ?>
+        <? $class = ($i== 'products_1') ? 1 : 2; ?>
+            <section class="products">
+                <div class="block_title"><div><?= $item['name'] ?></div></div>
+                <div class="slider owl-carousel carousel<?=$class?>">
+                    <? foreach($item['items'] as $item): ?>
+                        <?= $item['html'] ?>
+                    <? endforeach; ?>
+                </div>
+				
+				<? if($i== 'products_1')  echo '
+				<div style="display:block; width:140px; margin:0 auto; margin-bottom:40px;">
+				<a class="knopka" align="center" href="https://coronastyle.ru/katalog-tovarov/?filter%5Bprice%5D%5Bfrom%5D%5Bot%5D=490&filter%5Bprice%5D%5Bto%5D%5Bdo%5D=11900&price_range=490%3B11900&filter%5Bprice%5D%5Bfrom%5D=490&filter%5Bprice%5D%5Bto%5D=11900&filter%5Bflag%5D%5B1%5D=NEW&fields=price_desc&per_page=15">Все новинки </a></div>';
+				
+				
+				
+				  if($i== 'products_2')  echo '
+				<div style="display:block; width:140px; margin:0 auto; margin-bottom:40px;">
+				<a class="knopka" align="center" href="https://coronastyle.ru/katalog-tovarov/odezhda/kostyumy/">Все костюмы </a></div>';
+				
+				  if($i== 'products_3')  echo '
+				<div style="display:block; width:140px; margin:0 auto; margin-bottom:40px;">
+				<a class="knopka" align="center" href="https://coronastyle.ru/katalog-tovarov/odezhda/plat-ya/">Все платья </a></div>';
+				
+				
+				?>
+				
+				
+            </section>
+    <?  endforeach; ?>
+	
+	
+	
+    <? if($advantages['total']): ?>
+        <section class="advantages">
+            <div class="grid">
+                <?= $advantages['html'] ?>
+            </div>
+        </section>
+    <? endif; ?>
+    <? if(isset($instagramm['html'])): ?>
+        <section class="instagram">
+            <div class="block_title"><div>Instagram</div></div>
+            <div class="grid">
+                <?= $instagramm['html'] ?>
+            </div>
+        </section>
+    <? endif; ?>
+
+
+    <? if($content = $page->content): ?>
+        <section class="text_block">
+            <article class="article_main">
+                <div class="header">
+                    <h1><?= $page->h1 ?></h1>
+                </div>
+                <section>
+                    <?= $content ?>
+                </section>
+            </article>
+        </section>
+    <? endif; ?>
+    <? if($news['total']): ?>
+        <section class="articles">
+            <div class="block_title"><div><?= $this->translate('blog') ?></div></div>
+            <div class="grid">
+                <?= $news['html'] ?>
+            </div>
+        </section>
+    <? endif; ?>
+</div>

@@ -1,0 +1,36 @@
+<?php
+/**
+ * Меню каталога товаров в мобильной версии сайта.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $categoryList
+ */
+
+$data = $this->getMainCategories();
+$categoryList = $data['items'];
+?>
+
+<li umi:add-method="none"
+    umi:element-id="<?= $data['category_id'] ?>"
+    umi:region="list"
+    umi:module="catalog"
+    umi:sortable="sortable"
+>
+	<?php foreach ($categoryList as $category): ?>
+		<ul class="mobile_catalog"
+		    umi:element-id="<?= $category['id'] ?>"
+		    umi:region="row"
+		>
+			<li class="product_header"
+			    umi:field-name="name"
+			    umi:delete="delete"
+			    umi:empty="<?= $this->translate('empty_section_name') ?>"
+			>
+				<?= $category['text'] ?>
+			</li>
+
+			<?= $this->render($category, 'layout/header/mobile_menu/catalog/sub_list') ?>
+		</ul>
+	<?php endforeach; ?>
+</li>

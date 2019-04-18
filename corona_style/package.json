@@ -1,0 +1,22 @@
+{
+  "name": "Umisoft-demomarket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Umisoft",
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^2.1.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-less": "^3.0.1",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-util": "^3.0.3"
+  }
+}

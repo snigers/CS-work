@@ -1,0 +1,24 @@
+<?php
+/**
+ * Страница контента.
+ * Страница по умолчанию обрабатывается по отдельному шаблону `content/home/index`.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $page
+ */
+
+
+?>
+
+
+<? if(array_key_exists('items',$variables) !== false): ?>
+    <section class="breadcrumbs">
+        <?php foreach ($variables['items'] as $item): ?>
+            <a href="<?= $item['link']; ?>">
+	            <?= $item['name']; ?>
+	        </a> <span class="sep">/</span>
+        <?php endforeach; ?>
+        <?= $variables['header']; ?>
+    </section>
+<? endif; ?>

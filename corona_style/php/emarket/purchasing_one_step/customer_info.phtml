@@ -1,0 +1,20 @@
+<?php
+/**
+ * Личная информация о покупателе (только если он неавторизован).
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<?php if (isset($variables['onestep']['customer'])): ?>
+    <div class="del_row order_img_3 customer onestep">
+        <div class="del_content">
+            <?= $this->render(['form' => $this->macros('data', 'getEditForm', [$variables['onestep']['customer']['id']])], 'data/form') ?>
+
+            <a class="transparent_btn">
+                <?= $this->translate('continue') ?>
+            </a>
+        </div>
+    </div>
+<?php endif; ?>

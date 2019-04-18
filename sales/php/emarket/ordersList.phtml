@@ -1,0 +1,40 @@
+<?php
+/**
+ * Список заказов пользователя.
+ * Отдельно не выводится, поэтому происходит редирект на страницу "Личный кабинет".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+
+
+//$this->redirect($this->getPersonalLink());
+$orderList = $this->macros('emarket', 'ordersList');
+?>
+<section class="history">
+    <div class="title">Список заказов</div>
+
+    <? if(sizeof($orderList['items'])): ?>
+        <div class="titles">
+            <div class="number_col">Номер заказа</div>
+            <div class="date_col">Дата оформления</div>
+            <div class="status_col">Статус</div>
+            <div class="price_col">Стоимость</div>
+        </div>
+
+
+
+
+        <? foreach ($orderList['items'] as $order): ?>
+            <?= $this->render($order, 'emarket/personal/order') ?>
+        <?endforeach; ?>
+    <? else: ?>
+        <p>Заказов ещё нет.</p>
+    <? endif; ?>
+
+
+
+
+</section>
+

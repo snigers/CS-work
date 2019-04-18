@@ -1,0 +1,41 @@
+<?php
+/**
+ * Страница формы обратной связи.
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$page = $variables['page'];
+$form = $this->macros('webforms', 'add', [$page->getValue('form_id')]);
+$action = $this->getCommonVar('pre_lang') . '/webforms/send/';
+?>
+
+<div class="section_capt">
+	<div class="container">
+		<div class="row">
+			<h1 umi:element-id="<?= $page->getId() ?>" umi:field-name="h1" umi:empty="<?= $this->translate('empty_page_name') ?>">
+				<?= $page->getValue('h1') ?>
+			</h1>
+		</div>
+	</div>
+</div>
+
+<div class="feedback">
+	<div class="container">
+		<div class="grey_border">
+			<form method="post" action="<?= $action ?>" enctype="multipart/form-data">
+				<?= $this->render($form, 'webforms/page/recipient_list') ?>
+				<?= $this->render($form, 'webforms/page/field_list') ?>
+
+				<input type="hidden" name="system_form_id" value="<?= $form['form_id'] ?>" />
+				<input type="hidden" name="ref_onsuccess" value="<?= $this->getWebformSuccessUrl($form['form_id']) ?>" />
+
+				<?= $this->renderCaptcha() ?>
+
+				<input type="submit" value="<?= $this->translate('send_form') ?>" />
+
+				<?= $this->render('common-152-federal-law', 'library/personalDataNotice') ?>
+			</form>
+		</div>
+	</div>
+</div>

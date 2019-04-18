@@ -1,0 +1,22 @@
+<?php
+/**
+ * Результаты поиска.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $pageList
+ */
+
+$pageList = $variables['lines'];
+?>
+<div class="clear"></div>
+<section class="products products_search">
+    <div class="grid">
+        <?php foreach ($pageList as $page): ?>
+            <?=$this->macros('catalog', 'makeProductLine', [$page['id']])['html'];?>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<?= $this->render($variables, 'library/pagination') ?>
+

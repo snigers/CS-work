@@ -1,0 +1,18 @@
+<?php
+/**
+ * Каталог лучших предложений.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<div id="bestItems" class="tab-pane fade in">
+	<div class="row subsection_container">
+		<div class="subsection">
+			<?php foreach ($this->getBestCategory() as $category): ?>
+				<?= $this->render($category, 'catalog/category/preview') ?>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>

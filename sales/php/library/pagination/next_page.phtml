@@ -1,0 +1,14 @@
+<?php
+/**
+ * Ссылка на следующую страницу пагинации.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$pagination = $variables;
+?>
+
+<?php if (isset($pagination['tonext_link'])): ?>
+	<a href="<?= $this->getCurrentPath() . $pagination['tonext_link']['value'] ?>" class="next"></a>
+<?php endif; ?>

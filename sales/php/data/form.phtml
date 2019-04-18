@@ -1,0 +1,21 @@
+<?php
+/**
+ * Вспомогательный шаблон для построения динамических форм.
+ * Отрисовывает каждую группу формы и каждое поле группы, в зависимости от типа данных поля.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<?php foreach ($variables['form']['groups'] as $group): ?>
+
+		<?php foreach ($group['fields'] as $field): ?>
+			<div class="line">
+				<div class="name"><?= $field['title'] ?><?= (isset($field['required']) ? ' * ' : '') ?></div>
+				<div class="field">
+					<?= $this->render($field, "data/form_field/{$field['type']}") ?>
+				</div>
+			</div>
+		<?php endforeach; ?>
+<?php endforeach; ?>

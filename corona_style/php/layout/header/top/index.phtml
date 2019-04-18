@@ -1,0 +1,22 @@
+<?php
+/**
+ * Верхний ряд шапки сайта - меню основных страниц сайта.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<div class="header_top_nav background_gray">
+	<div class="container">
+		<div class="row">
+			<div>
+				<?= $this->render('top_left', 'layout/header/top/menu') ?>
+			</div>
+
+			<div>
+				<?= $this->render('top_right', 'layout/header/top/menu') ?>
+			</div>
+		</div>
+	</div>
+</div>

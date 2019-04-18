@@ -1,0 +1,38 @@
+<?php
+/**
+ * Поле типа "Строка".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$field = $variables;
+$placeholder = isset($variables['tip']) ? $variables['tip'] : $variables['title'];
+if(isset($field['required'])){
+    $placeholder.=" *";
+}
+?>
+
+<? $required = isset($field['required']) ? 'required' : '' ?>
+
+
+<? if($field['name'] == 'phone'): ?>
+    <input
+            type="tel"
+            name="<?= $field['input_name'] ?>"
+            value="<?= isset($field['value']) ? $field['value'] : '' ?>"
+            placeholder="<?= $placeholder ?>"
+            class="input <?= $required ?>"
+    />
+<? else: ?>
+    <input
+            type="text"
+            name="<?= $field['input_name'] ?>"
+            placeholder="<?= $placeholder ?>"
+            value="<?= isset($field['value']) ? $field['value'] : '' ?>"
+            class="input <?= $required ?>"
+    />
+<? endif; ?>
+
+
+

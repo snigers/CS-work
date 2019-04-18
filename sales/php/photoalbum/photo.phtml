@@ -1,0 +1,51 @@
+<?php
+/**
+ * Страница фотографии.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $page
+ */
+
+$page = $variables['page'];
+?>
+
+<div class="section_capt">
+	<div class="container">
+		<div class="row">
+			<?= $this->render($variables, 'layout/header/breadcrumbs') ?>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="one_photo">
+		<?= $this->render(
+			[
+				'id' => $page->getId(),
+				'fieldName' => 'photo',
+				'src' => $page->getValue('photo'),
+				'empty' => $this->getNoPhotoPath(),
+				'width' => 495,
+			],
+			'library/thumbnail'
+		) ?>
+
+		<div class="title">
+			<h4 umi:element-id="<?= $page->getId() ?>"
+			    umi:field-name="h1"
+			    umi:empty="<?= $this->translate('empty_page_name') ?>"
+			>
+				<?= $page->getValue('h1') ?>
+			</h4>
+
+			<div class="gray_text"
+			     umi:element-id="<?= $page->getId() ?>"
+			     umi:field-name="descr"
+			     umi:empty="<?= $this->translate('empty_page_description') ?>"
+			>
+				<p><?= $page->getValue('descr') ?></p>
+			</div>
+		</div>
+	</div>
+</div>

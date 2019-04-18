@@ -1,0 +1,20 @@
+<?php
+/**
+ * Выводит опрос, либо его результаты.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$poll = $this->macros('vote', 'poll', [$variables['pageId']]);
+?>
+
+<div class="container grey_border">
+	<?php if ($this->canShowVoteForm($poll)): ?>
+		<?= $this->render($poll, 'content/home/vote/vote_form') ?>
+	<?php elseif ($this->canShowVoteResults($poll)): ?>
+		<?= $this->render($poll, 'content/home/vote/vote_results') ?>
+	<?php else: ?>
+		<?= $this->translate('vote_no_results') ?>
+	<?php endif; ?>
+</div>

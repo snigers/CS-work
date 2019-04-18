@@ -1,0 +1,14 @@
+<?php
+/**
+ * Поле типа "Файл".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$field = $variables;
+?>
+
+
+<input type="file" name="<?= $field['input_name'] ?>" value="<?= isset($field['value']) ? $field['value'] : '' ?>" id="<?= $field['input_name'] ?>_<?= $field['id'] ?>">
+<label for="<?= $field['input_name'] ?>_<?= $field['id'] ?>">Прикрепить файл</label>

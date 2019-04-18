@@ -1,0 +1,41 @@
+<?php
+/**
+ * Страница контента.
+ * Страница по умолчанию обрабатывается по отдельному шаблону `content/home/index`.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $page
+ */
+
+$page = $variables['page'];
+?>
+
+<?php if ($this->isHomePage($variables)): ?>
+	<?= $this->renderCache($variables, 'content/home/index','home_index') ?>
+<?php else: ?>
+	<?php if ($this->is404Page($variables)): ?>
+		<?= $this->render($variables, 'content/notfound') ?>
+    <?php elseif($page->id == 1093): ?>
+        <?= $this->render($variables, 'content/compare') ?>
+    <?php elseif($page->id == 178): ?>
+		<? $getWishList = $this->macros('emarket','getWishList') ?>
+		<div class="product-list_fav">
+            <? if($getWishList['total']): ?>
+				<section class="products">
+					<div class="grid" data-in-line="4" data-in-line1229="4" data-in-line1023="4" data-in-line767="2"  data-in-line479="1">
+                        <? foreach($getWishList['items'] as $item): ?>
+                            <?= $item['html'] ?>
+                        <? endforeach; ?>
+					</div>
+				</section>
+
+            <? else: ?>
+				<p class="empty">Товаров нет.</p>
+            <? endif; ?>
+		</div>
+
+	<?php else: ?>
+		<?= $page->getValue('content') ?>
+	<?php endif; ?>
+<?php endif; ?>

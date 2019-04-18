@@ -1,0 +1,14 @@
+<?php
+/**
+ * Мобильный блок отзывов о товаре (пять звездочек).
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var iUmiHierarchyElement $variables
+ */
+
+$product = $variables;
+?>
+
+<ul class="rate_star list_inline inline visible-xs visible-sm">
+	<?= $this->renderProductRating($product->getId()) ?>
+</ul>

@@ -1,0 +1,30 @@
+<?php
+/**
+ * Изображение и слайдер.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$imagePathList = $this->getProductImagePaths($variables['page']);
+?>
+
+<div class="col-md-5  main_carousel">
+	<div class="carousels_container">
+		<div class="slider-for">
+			<?php foreach ($imagePathList as $path): ?>
+				<div>
+					<img src="<?= $path ?>" alt="item">
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="slider-nav hidden-xs hidden-sm">
+			<?php foreach ($imagePathList as $path): ?>
+				<div>
+					<img src="<?= $path ?>" alt="item">
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>

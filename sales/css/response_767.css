@@ -1,0 +1,683 @@
+@media (max-width: 767px)
+{
+    /*---------------
+        Main styles
+    ---------------*/
+    .block_title
+    {
+        line-height: 26px;
+
+        letter-spacing: .1em;
+    }
+
+
+
+    .wrap
+    {
+        padding-top: 104px;
+    }
+
+
+    .cont .cont
+    {
+        padding: 0;
+    }
+
+
+
+    /*---------------
+        Header
+    ---------------*/
+    header .links
+    {
+        display: none;
+    }
+
+
+    header .line + .line
+    {
+        margin-top: 0;
+    }
+
+
+    header .adres
+    {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        text-align: center;
+    }
+
+
+    header .cats
+    {
+        top: 1px;
+
+        box-shadow: 0 3px 5px rgba(0,0,0,.2);
+    }
+
+    header .cats .sub_cats ul
+    {
+                column-count: 3;
+        -webkit-column-count: 3;
+           -moz-column-count: 3;
+    }
+
+
+    header
+    {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+
+        border-bottom: 1px solid #d9d9d9;
+        background-color: #fff;
+    }
+
+
+    header .info
+    {
+        padding-top: 5px;
+    }
+
+    header .info .cont
+    {
+        height: 78px;
+    }
+
+
+    header .logo
+    {
+        display: flex;
+
+        width: 100%;
+        max-width: calc(100% - 160px);
+        height: 51px;
+        margin: 0 auto;
+        padding-left: 5px;
+
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    header .logo a,
+    header .logo img
+    {
+        max-height: 41px;
+    }
+
+
+    header .mob_menu_link
+    {
+        top: 0;
+        right: auto;
+        left: 10px;
+
+        width: 35px;
+        padding: 15px 5px;
+    }
+
+    header .mob_menu_link span
+    {
+        width: 100%;
+    }
+
+
+    header .mob_search_link
+    {
+        display: block;
+    }
+
+
+    header .compare_link
+    {
+        position: absolute;
+        top: 0;
+        right: 46px;
+
+        overflow: hidden;
+
+        width: 35px;
+        height: 51px;
+        margin: 0;
+        padding: 0;
+
+        text-indent: -9999px;
+
+        background-position: 50% 50%;
+    }
+
+    header .cart_link
+    {
+        position: absolute;
+        top: 0;
+        right: 10px;
+
+        overflow: hidden;
+
+        width: 35px;
+        height: 51px;
+        margin: 0;
+        padding: 0;
+
+        text-indent: -9999px;
+
+        background-color: transparent;
+        background-position: 50% 50%;
+    }
+
+
+    header .bottom .cont
+    {
+        padding: 0;
+    }
+
+
+    #search_form
+    {
+        position: absolute;
+        top: 84px;
+        left: 0;
+
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+
+        background: #fff;
+        box-shadow: 0 3px 5px rgba(0,0,0,.2);
+    }
+
+    #search_form .submit_btn
+    {
+        height: 29px;
+    }
+
+
+    header .phone
+    {
+        font-size: 20px;
+
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+
+    #search_form,
+    .compare_link.auth,
+    header .langs
+    {
+        display: none;
+    }
+
+
+
+    /*---------------
+        Sidebar
+    ---------------*/
+    aside .filter
+    {
+        margin-bottom: 15px;
+    }
+
+    aside .filter .columns
+    {
+                column-count: 2;
+        -webkit-column-count: 2;
+           -moz-column-count: 2;
+        -webkit-column-gap: 15px;
+           -moz-column-gap: 15px;
+                column-gap: 15px;
+    }
+
+    aside .filter .item .data
+    {
+        display: none;
+    }
+
+
+    aside .filter .submit
+    {
+        flex-wrap: wrap;
+    }
+
+    aside .filter .reset_btn
+    {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        text-align: center;
+    }
+
+
+
+    /*---------------
+        Main section
+    ---------------*/
+    .promo_banners .item
+    {
+        height: 163px;
+        padding: 15px;
+    }
+
+    .promo_banners .item .title
+    {
+        font-size: 13px;
+    }
+
+
+
+    .products .slider
+    {
+        margin-bottom: 50px;
+    }
+
+    .products .product
+    {
+        text-align: center;
+    }
+
+    .products .product .thumb
+    {
+        margin-bottom: 15px;
+    }
+
+    .products .product .price
+    {
+        display: inline-block;
+
+        vertical-align: top;
+    }
+
+
+
+    .advantages .item
+    {
+        font-size: 15px;
+        line-height: 20px;
+
+        width: calc(50% - 30px);
+    }
+
+
+
+    .instagram
+    {
+        margin-bottom: 40px;
+    }
+
+    .instagram .grid
+    {
+        margin-left: -15px;
+    }
+
+    .instagram .grid a
+    {
+        width: calc(33.333% - 15px);
+        margin-bottom: 15px;
+        margin-left: 15px;
+    }
+
+
+
+    .text_block
+    {
+        font-size: 15px;
+        line-height: 22px;
+
+        padding-bottom: 30px;
+    }
+
+    .text_block h1,
+    .text_block .title
+    {
+        font-size: 28px;
+
+        margin-bottom: 20px;
+    }
+
+
+
+
+    .articles
+    {
+        margin-bottom: 20px;
+    }
+
+    .articles .item
+    {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .articles .item .name a
+    {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .articles .item .details
+    {
+        margin-top: 20px;
+    }
+
+
+
+    .cart_info table td.info + td.price
+    {
+        clear: both;
+    }
+
+    .cart_info table td.amount,
+    .cart_info table td.price,
+    .cart_info table td.discount
+    {
+        width: auto;
+    }
+
+    .cart_info table tr
+    {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: stretch;
+        align-content: flex-start;
+        flex-wrap: wrap;;
+    }
+
+
+    .cart_info table tfoot td.links
+    {
+        padding: 10px 0;
+    }
+
+    .cart_info table tfoot td.links a + a
+    {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    .cart_info table tfoot td.links .continue_link,
+    .cart_info table tfoot td.links .clear_link
+    {
+        font-size: 16px;
+        line-height: 44px;
+
+        width: 100%;
+        height: 44px;
+
+        text-align: center;
+    }
+
+    .cart_info table tfoot td.total_price
+    {
+        line-height: normal;
+
+        width: 100%;
+        padding-bottom: 15px;
+
+        text-align: center;
+    }
+
+
+
+    .checkout .step
+    {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+    }
+
+    .checkout .step + .step
+    {
+        margin-top: 20px;
+    }
+
+
+
+    .sorting .item + .item
+    {
+        margin-left: 32px;
+    }
+
+
+
+    .products .grid
+    {
+        margin-left: -15px;
+    }
+
+    .products .grid .product
+    {
+        width: calc(50% - 15px);
+        margin-bottom: 30px;
+        margin-left: 15px;
+    }
+
+
+
+    .compare_info
+    {
+        margin-bottom: 40px;
+    }
+
+    .compare_info aside
+    {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .compare_features
+    {
+        display: none;
+    }
+
+
+    .compare_info .content
+    {
+        width: 100%;
+    }
+
+    .compare_carousel .features li
+    {
+        position: relative;
+
+        padding-top: 20px;
+    }
+
+    .compare_carousel .features li:before
+    {
+        color: #404040;
+        font: 12px ProximaNova;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: block;
+
+        width: 100%;
+        padding: 5px;
+
+        content: attr(data-column);
+        text-align: center;
+
+        opacity: .4;
+    }
+
+
+
+    .lk .personal_info .item
+    {
+        font-size: 14px;
+    }
+
+
+    .lk .links
+    {
+        width: 100%;
+    }
+
+
+
+    .lk .history .titles
+    {
+        font-size: 15px;
+        line-height: 20px;
+
+        padding: 0 0 15px;
+    }
+
+    .lk .history > .item .head
+    {
+        font-size: 15px;
+        line-height: 20px;
+
+        padding: 15px 0;
+    }
+
+
+    .lk .history > .item .cart_info table td.amount,
+    .lk .history > .item .cart_info table td.price,
+    .lk .history > .item .cart_info table td.discount
+    {
+        width: 25%;
+    }
+
+
+
+    .product_info
+    {
+        padding-top: 0;
+    }
+
+    .product_info .images
+    {
+        width: 100%;
+        padding-bottom: 15px;
+    }
+
+    .product_info .images .grid
+    {
+        display: block;
+
+        margin-left: 0;
+    }
+
+    .product_info .images .item
+    {
+        width: auto;
+        margin-bottom: 0;
+        margin-left: 0;
+    }
+
+
+    .product_info .data
+    {
+        width: 100%;
+    }
+
+
+
+    .form .submit_btn
+    {
+        width: 100%;
+    }
+
+
+
+    /*---------------
+        Footer
+    ---------------*/
+    footer .subscribe
+    {
+        width: 249px;
+    }
+
+    footer .subscribe .title
+    {
+        line-height: normal;
+
+        width: 100%;
+        margin-bottom: 10px;
+        padding-bottom: 0;
+    }
+
+
+    footer .socials
+    {
+        margin-top: 30px;
+        margin-left: 0;
+    }
+
+
+
+    footer .col.left
+    {
+        width: 100%;
+        margin-bottom: 30px;
+
+        text-align: center;
+    }
+
+    footer .logo img
+    {
+        margin: 0 auto;
+    }
+
+
+    footer .contacts
+    {
+        width: 100%;
+        margin-top: 30px;
+
+        text-align: center;
+    }
+
+    footer .creator
+    {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+
+    /*---------------
+        PopUp
+    ---------------*/
+
+    header .compare_link.auth {
+        display: block;
+    }
+
+    header .compare_link {
+        display: none;
+    }
+
+    
+   /* бордюр для таблицы размеров */
+    .table_razmer table {
+        padding: 3px;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+    .table_razmer table tr td{
+        padding: 3px;
+        border: 1px solid #d6b69e;
+        text-align: center;
+    }
+    .table_razmer table tr th {
+        padding: 3px;
+        border: 1px solid #d6b69e;
+        text-align: center;
+    }
+	
+	
+}

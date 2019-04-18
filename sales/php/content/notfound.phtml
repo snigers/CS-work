@@ -1,0 +1,12 @@
+<?php
+/**
+ * Страница 404.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$this->send404Status();
+$page = $this->get404Page();
+?>
+<?= $page->getValue('content') ?>

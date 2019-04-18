@@ -1,0 +1,227 @@
+<?php
+/**
+ * Шапка сайта:
+ *   - Все всплывающие окна на сайте (скрыты по умолчанию)
+ *   - Меню основных страниц сайта, разбитое на две части - левую и правую
+ *   - Блок с логотипом сайта, формой "Заказать звонок", режимом работы и корзиной товаров
+ *   - Блок с меню каталога товаров, формой поиска, кнопкой сравнения товаров, кнопки <?= $this->translate('entry') ?>а на сайт (или панели управления пользователя)
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+//$settingsContainer = $this->getSettingsContainer();
+$settingsContainer = $this->getCommonVar('settingsContainer');
+$getCategoryMenuNew = $this->getCommonVar('getCategoryMenuNew');
+
+$top_menu = ($this->getCommonVar('lang_id') == 1)  ? 'top_menu_ru' : 'top_menu_eng';
+$top_menu.='_'.$this->getCommonVar('domain-id');
+
+$catalog_footer = ($this->getCommonVar('lang_id') == 1)  ? 'top_catalog_ru' : 'top_catalog_eng';
+$catalog_footer.='_'.$this->getCommonVar('domain-id');
+$compare_page = false;
+switch($this->getCommonVar('domain-id')){
+    case 1: {$compare_page = ($this->getCommonVar('lang_id') == 1)  ? 1093 : 2242;}; break;
+    case 2: {$compare_page = ($this->getCommonVar('lang_id') == 1)  ? 3012 : 4552;}; break;
+}
+
+
+$lang_prefix = ($this->getCommonVar('lang_id') == 1)  ? '' : '/en';
+$langs = $this->macros('system','getLangsList');
+$langsCollection = langsCollection::getInstance();
+
+
+function getCountryByIp($ipAddress)
+{
+    $ipDetail=array();
+    $f = file_get_contents("http://api.hostip.info/?ip=".$ipAddress);
+     
+    //Получаем название города
+    preg_match("@<Hostip>(\s)*<gml:name>(.*?)</gml:name>@si", $f, $city);
+    $ipDetail['city'] = $city[2]; 
+     
+    //Получаем название страны
+    preg_match("@<countryName>(.*?)</countryName>@si", $f, $country);
+    $ipDetail['country'] = $country[1];
+     
+    //Получаем код страны
+    preg_match("@<countryAbbrev>(.*?)</countryAbbrev>@si", $f, $countryCode);
+    $ipDetail['countryCode'] = $countryCode[1];
+     
+    return $ipDetail;
+}
+
+
+?>
+<!-- Шапка -->
+<header>
+    <div class="info">
+        <div class="cont">
+            <div class="logo">
+                <a href="<?=$lang_prefix?>/">
+                    <?
+                        if($logo = $settingsContainer->logo){
+                            $logo = $logo->getFilePath(true);
+                        }else{
+                            $logo = 'images/logo.png';
+                        }
+                    ?>
+                    <img src="<?= $logo ?>" alt="" />
+                </a>
+            </div>
+
+
+            <a href="#" class="mob_menu_link">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+
+            <a href="#" class="mob_search_link"></a>
+
+
+            <div class="col right">
+                <div class="line">
+                    <div class="links">
+
+                        <? $menu = $this->macrosCache("menu","draw",[$top_menu],"top_menu"); ?>
+                        <?= $this->renderCache($menu,'menu/a_href','top_menu'); ?>
+                    </div>
+
+                    <?php if($this->domainId() != 1):?>
+                        <div class="phone">
+
+						
+                            <a href="tel:<?= $settingsContainer->getValue('phone') ?>"><?= $settingsContainer->getValue('phone') ?></a>
+                        </div>
+                    <?php endif;?>
+
+                    <!-- <div class="langs">
+                        <?php
+                            foreach($langs['items'] as $lang){
+                                $link = "/";
+                                if($lang->getPrefix() == 'en'){
+                                    $link = '/en';
+                                }
+                                $active = ($this->getCommonVar('lang_id') == $langsCollection->getLangId($lang->getPrefix())) ? 'class="active"' : '';
+                                ?>
+                                <a href="<?= $link ?>" <?= $active ?>><?= $lang->getPrefix() ?></a>
+                                <?
+                            }
+                        ?>
+                    </div> -->
+                </div>
+
+
+                <div class="line">
+                    <div class="adres"><?= $settingsContainer->getValue('address') ?></div>
+                    <?php if($this->domainId() == 1):?>
+                        <div class="phone">
+						
+												<?php
+												
+					
+					$client  = @$_SERVER['HTTP_CLIENT_IP'];
+$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+$remote  = @$_SERVER['REMOTE_ADDR'];
+ 
+if(filter_var($client, FILTER_VALIDATE_IP)) $ip = $client;
+elseif(filter_var($forward, FILTER_VALIDATE_IP)) $ip = $forward;
+else $ip = $remote;
+					
+				   
+					
+					$ipDetail = getCountryByIp($ip);
+					
+				
+					
+					
+
+?>
+						
+                           
+							
+							
+<?
+						if($ipDetail['countryCode'] =='KZ'){
+							
+						echo '<a href="tel:778000806911">+7 (780) 080-69-11</a>';
+						}
+						else
+						{
+                           echo '<a href="tel:88005113868">8 (800) 511-38-68
+</a>';
+						}
+                        
+						?>
+                        
+						
+</div>
+
+                        <form action="<?= $lang_prefix ?>/search/search_do" id="search_form">
+                            <input type="text" name="search_string" value="" class="input left" />
+                            <button type="submit" class="submit_btn left"></button>
+                            <div class="clear"></div>
+                        </form>
+                    <?php endif;?>
+                    <? if($this->getCommonVar('lang_id') == 1): ?>
+                        <? if(permissionsCollection::getInstance()->isAuth()): ?>
+                            <a href="/emarket/personal" class="compare_link auth"  style="font-size:0px;"><?= $this->translate('personal') ?></a>
+                        <? else: ?>
+                            <a href="#login_modal" class="compare_link auth modal_link" style="font-size:0px;"><?= $this->translate('entry') ?></a>
+                        <? endif; ?>
+
+                        <a href="<?= $this->getPageById($compare_page)->link ?>" class="compare_link" style="font-size:0px;"><?= $this->translate('compare') ?></a>
+
+                        <a href="/emarket/cart" class="cart_link">
+                            <span class="cart_summary_count">0</span> <b class="cart_all_summary"></b>
+                        </a>
+                    <? else: ?>
+                        <? if(permissionsCollection::getInstance()->isAuth()): ?>
+                            <a href="/en/emarket/personal" class="compare_link auth"><?= $this->translate('personal') ?></a>
+                        <? else: ?>
+                            <a href="#login_modal" class="compare_link modal_link auth"><?= $this->translate('entry') ?></a>
+                        <? endif; ?>
+
+                        <a href="<?= $this->getPageById($compare_page)->link ?>" class="compare_link"><?= $this->translate('compare') ?></a>
+
+                        <a href="/en/emarket/cart" class="cart_link">
+                            <span class="cart_summary_count">0</span> <b class="cart_all_summary"></b>
+                        </a>
+                    <? endif; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bottom">
+        <div class="cont">
+            <nav class="cats">
+                <? $menu = $this->macrosCache("menu","draw",[$catalog_footer],"catalog_footer"); ?>
+                <?= $this->renderCache($menu,"layout/header/top_category_menu_new",'catalog_footer'); ?>
+                <!--
+                <?= $this->renderCache($getCategoryMenuNew,"layout/header/top_category_menu",'top_category_menu'); ?>
+                -->
+            </nav>
+
+            <?php if($this->domainId() != 1):?>
+                <div class="modal_cont search">
+                    <a href="#" class="mini_modal_link search_link" data-modal-id="#search_modal"></a>
+
+                    <div class="mini_modal" id="search_modal">
+                        <form action="<?= $lang_prefix ?>/search/search_do">
+                            <input type="text" name="search_string" value="" class="input left" />
+                            <button type="submit" class="submit_btn left"></button>
+                            <div class="clear"></div>
+                        </form>
+                    </div>
+                </div>
+            <?php endif;?>
+        </div>
+    </div>
+</header>
+<!-- End Шапка -->
+
+

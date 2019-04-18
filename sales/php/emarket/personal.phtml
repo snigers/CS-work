@@ -1,0 +1,101 @@
+<?php
+/**
+ * Страница "Личный кабинет" покупателя.
+ * Если пользователь авторизован, выводятся две вкладки - "Заказы" и "Личная информация".
+ * Если пользователь - гость, выводится только вкладка "Заказы".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$userType = $variables['user']['type'];
+?>
+<? $form = $this->macros('data', 'getEditForm', [$variables['user']['id']]);?>
+
+<section class="lk">
+    <div class="personal grid">
+        <div class="personal_info">
+            <? foreach($form['groups'] as $group): ?>
+                <? if($group['name'] == 'short_info'): ?>
+                    <? foreach($group['fields'] as $field): ?>
+                        <?= $this->render($field,'data/form_account') ?>
+                    <? endforeach; ?>
+                    <? continue(1); ?>
+                <? endif; ?>
+            <? endforeach; ?>
+        </div>
+
+
+        <? if(permissionsCollection::getInstance()->isAuth()): ?>
+            <form class="personal_form form" action="/users/settings_doCustom">
+                <? foreach($form['groups'] as $group): ?>
+                    <? if($group['name'] == 'short_info'): ?>
+                        <? foreach($group['fields'] as $field): ?>
+                            <? $field['class'] = 'grid'; ?>
+                            <?= $this->render($field,'data/field') ?>
+                        <? endforeach; ?>
+                        <? continue(1); ?>
+                    <? endif; ?>
+                <? endforeach; ?>
+
+                <div class="submit">
+                    <button type="submit" class="submit_btn">Сохранить</button>
+                    <a href="#" class="cancel_link"><span>Отменить</span></a>
+                </div>
+            </form>
+
+
+            <form class="password_form form" action="/users/changePassword">
+                <div class="line">
+                    <div class="name">Старый пароль *</div>
+
+                    <div class="field">
+                        <input type="password" name="old_password" value="" class="input required">
+                    </div>
+                </div>
+
+                <div class="line">
+                    <div class="name">Новый пароль *</div>
+
+                    <div class="field">
+                        <input type="password" name="password" value="" class="input required">
+                    </div>
+                </div>
+
+                <div class="line">
+                    <div class="name">Повторить новый пароль *</div>
+
+                    <div class="field">
+                        <input type="password" name="re_password" value="" class="input required">
+                    </div>
+                </div>
+
+                <div class="submit">
+                    <button type="submit" class="submit_btn">Сохранить</button>
+                    <a href="#" class="cancel_link"><span>Отменить</span></a>
+                </div>
+            </form>
+
+            <div class="modal" id="password_form">
+                <div class="modal_title">Изменения пароля!</div>
+
+                <div class="text">
+                    <p class="msg"></p>
+                </div>
+
+            </div>
+
+        <? endif; ?>
+        <? if(permissionsCollection::getInstance()->isAuth()): ?>
+            <div class="links">
+                <a href="#" class="edit_personal">Редактировать</a>
+                <a href="#" class="edit_password">Изменить пароль</a>
+                <a href="/users/logout" class="">Выход</a>
+            </div>
+        <? endif; ?>
+
+    </div>
+
+    <?= $this->render($variables, 'emarket/ordersList') ?>
+    
+</section>

@@ -1,0 +1,26 @@
+<?php
+/**
+ * Любой способ доставки, кроме ApiShip.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$delivery = $variables;
+?>
+
+<div>
+	<label>
+		<input
+			type="radio"
+			name="delivery-id"
+			value="<?= $delivery['id'] ?>"
+			required
+			<?= $this->getRadioStatusByActivity($delivery) ?>
+		/>
+
+		<span></span>
+
+		<?= $delivery['name'] ?> - <?= $this->getFormattedDeliveryPrice($delivery) ?>
+	</label>
+</div>

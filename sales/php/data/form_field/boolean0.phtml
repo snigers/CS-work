@@ -1,0 +1,24 @@
+<?php
+/**
+ * Поле типа "Кнопка-флажок".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$field = $variables;
+?>
+<!-- Первоначальный вариант в файле boolean0.phtml -->
+<div>	
+		<input
+			type="checkbox"
+			id = "<?= $field['name'] ?>"
+			name="<?= $field['input_name'] ?>"
+			placeholder="<?= $field['title'] ?>"
+			<?= (isset($field['required']) ? ' required ' : '') ?>
+			value="<?= isset($field['value']) ? $field['value'] : '' ?>"
+		/>
+	<label for="<?= $field['name']?>">
+		<p><?= $field['title'] ?></p>
+	</label>
+</div>

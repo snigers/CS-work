@@ -1,0 +1,38 @@
+<?php
+/**
+ * Выбор адреса доставки (может включать способы доставки с типом "Самовывоз").
+ * Форма создания нового адреса доставки.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$selfDeliveryList = isset($variables['delivery']) ? $variables['delivery'] : [];
+$addressList = isset($variables['items']) ? $variables['items'] : [];
+?>
+
+
+<div class="line">
+    <div class="name"><?= $this->translate('choose_delivery_address') ?></div>
+    <input type="hidden" name="delivery-address" value="new" />
+</div>
+
+<?php foreach ($selfDeliveryList as $index => $delivery): ?>
+    <?= $this->render($delivery, 'emarket/delivery/address/self_delivery') ?>
+<?php endforeach; ?>
+
+<?php foreach ($addressList as $index => $address): ?>
+    <?= $this->render($address, 'emarket/delivery/address/item') ?>
+<?php endforeach; ?>
+
+<?php if ($this->canShowNewDeliveryAddressOption($variables)): ?>
+    <div class="line">
+        <input type="radio" name="delivery-address" value="new" id="address_new" checked/>
+        <label for="address_new">
+            <?= $this->translate('new_delivery_address') ?>
+        </label>
+    </div>
+<?php endif; ?>
+
+
+

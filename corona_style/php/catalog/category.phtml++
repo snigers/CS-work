@@ -1,0 +1,143 @@
+<?php
+/**
+ * Категория каталога товаров:
+ *   - Шапка
+ *   - Форма умных фильтров
+ *   - Блок сортировки и выбора вида превью товаров
+ *   - Блок превью товаров + пагинация
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+//$catalog = $this->getCatalog($variables);
+//$productList = $this->getProducts($catalog);
+
+$category = $this->macros('catalog', 'getCategoryList', [null, $variables['page']->id]);
+$level = isset($category['total']) ? 4 : 1;
+$productList = $this->macros('catalog', 'getSmartCatalogCustom', [$variables['page']->id, false, false, $level]);
+
+$pagination = $this->getPagination($productList);
+$this->setCommonVar('smart_filters', $this->getSmartFilters($variables, $level));
+$getMyFiltr = $this->macros('catalog', 'getMyFiltr');
+$page = $variables['page'];
+
+$mainCategoryList = $this->macros('catalog', 'getCategoryList', [null, $variables['parents'][0]->id]);
+?>
+<form class="category_filtr">
+    <!-- Боковая колонка -->
+    <aside class="left">
+        <?php if ($this->domainId() == 1 and count($mainCategoryList['items']) > 0): ?>
+            <ul class="asite-cats">
+                <?php foreach (array_reverse($mainCategoryList['items']) as $item): ?>
+                    <?php
+                    $subCategoryList = $this->macros('catalog', 'getCategoryList', [null, $item['id']]);
+                    ?>
+                    <li>
+                        <a href="<?= $item['link'] ?>" <?= $this->getAsideLinkClass($item['id'], $page->id, $subCategoryList) ?>>
+                            <?= $item['text'] ?>
+                        </a>
+
+                        <?php if (count($subCategoryList['items']) > 0): ?>
+                            <ul <?= $this->getAsideLinkClass($item['id'], $page->id, $subCategoryList) ?>>
+                                <?php foreach ($subCategoryList['items'] as $item): ?>
+                                    <?php
+                                    $subCategoryList = $this->macros('catalog', 'getCategoryList', [null, $item['id']]);
+                                    $className = $this->getAsideLinkClass($item['id'], $page->id);
+                                    ?>
+
+                                    <li>
+                                        <a href="<?= $item['link'] ?>" <?= $className ?>>
+                                            <?= $item['text'] ?>
+                                            <span>
+                                                <?= $this->getObjectsCount($item['id']) ?>
+                                            </span>
+                                        </a>
+                                        <?php if (count($subCategoryList['items'])): ?>
+                                            <i class="js-asite-cats <?=$className ? 'active' : ''?>"></i>
+                                            <ul <?= $this->getAsideLinkClass($item['id'], $page->id, $subCategoryList) ?>>
+
+                                                <?php foreach ($subCategoryList['items'] as $item): ?>
+                                                    <li>
+                                                        <a href="<?= $item['link'] ?>"
+                                                            <?= $this->getAsideLinkClass($item['id'], $page->id, $subCategoryList) ?>>
+                                                            <?= $item['text'] ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <div class="filter">
+            <div class="form">
+                <?= $this->render($variables, 'catalog/category/filters/index') ?>
+            </div>
+        </div>
+    </aside>
+    <!-- End Боковая колонка -->
+
+
+    <!-- Основная часть -->
+    <section class="content right">
+        <section class="sorting right">
+            <div class="item sort">
+                <div class="name"><?= $this->translate('sort') ?></div>
+
+                <select name="fields">
+                    <? foreach ($getMyFiltr['fields'] as $item): ?>
+                        <? $selected = (array_key_exists("is_active", $item) !== false) ? 'selected' : ''; ?>
+                        <option value="<?= $item['name'] ?>" <?= $selected ?>><?= $item['title'] ?></option>
+                    <? endforeach; ?>
+                </select>
+            </div>
+
+
+            <div class="item limit">
+                <div class="name"><?= $this->translate('output') ?></div>
+
+                <select name="per_page">
+                    <? foreach ($getMyFiltr['per_page'] as $item): ?>
+                        <? $selected = (array_key_exists("is_active", $item) !== false) ? 'selected' : ''; ?>
+                        <option value="<?= $item['name'] ?>" <?= $selected ?>><?= $item['title'] ?></option>
+                    <? endforeach; ?>
+                </select>
+            </div>
+        </section>
+        <div class="clear"></div>
+
+
+        <section class="products">
+            <? if ($productList['total'] == 0): ?>
+                <p class="empty"><?= $this->translate('empty_category') ?></p>
+            <? else: ?>
+                <div class="grid">
+                    <? foreach ($productList['lines'] as $item): ?>
+                        <?= $item['html']; ?>
+                    <? endforeach; ?>
+                </div>
+            <? endif; ?>
+        </section>
+
+        <?= $this->render($pagination, 'library/pagination') ?>
+
+    </section>
+    <!-- End Основная часть -->
+    <div class="clear"></div>
+
+    <? if ($descr = $page->descr): ?>
+        <section class="text_block">
+            <h2 class="title"><?= $page->seo_header ?></h2>
+            <?= $descr ?>
+        </section>
+    <? endif; ?>
+
+</form>
+
+<div class="clear"></div>

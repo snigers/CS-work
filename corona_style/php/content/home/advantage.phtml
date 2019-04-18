@@ -1,0 +1,81 @@
+<?php
+/**
+ * Блок "Наши преимущества".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $page
+ */
+
+$page = $variables['page'];
+?>
+
+<div class="advantage">
+	<div class="container background_gray mobile_all_width">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-3 col-xs-12 col-xs-offset-0 col-md-offset-0">
+				<div class="media">
+					<div class="media-left">
+						<i class="sprite-mob-advantage sprite-mob_advantage_4 media-object"></i>
+					</div>
+
+					<div class="media-body"
+					     umi:element-id="<?= $page->getId() ?>"
+					     umi:field-name="quality"
+					     umi:empty="<?= $this->translate('quality') ?>"
+					>
+						<?= $page->getValue('quality') ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="media">
+					<div class="media-left">
+						<i class="sprite-mob-advantage sprite-mib_advantage_2 media-object"></i>
+					</div>
+
+					<div class="media-body"
+					     umi:element-id="<?= $page->getId() ?>"
+					     umi:field-name="delivery"
+					     umi:empty="<?= $this->translate('delivery') ?>"
+					>
+						<?= $page->getValue('delivery') ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="media">
+					<div class="media-left">
+						<i class="sprite-mob-advantage sprite-mob_advantage media-object"></i>
+					</div>
+
+					<div class="media-body"
+					     umi:element-id="<?= $page->getId() ?>"
+					     umi:field-name="protection"
+					     umi:empty="<?= $this->translate('protection') ?>"
+					>
+						<?= $page->getValue('protection') ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="media">
+					<div class="media-left">
+						<i class="sprite-mob-advantage sprite-mob_advantage3 media-object"></i>
+					</div>
+
+					<div class="media-body"
+					     umi:element-id="<?= $page->getId() ?>"
+					     umi:field-name="support"
+					     umi:empty="<?= $this->translate('support') ?>"
+					>
+						<?= $page->getValue('support') ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

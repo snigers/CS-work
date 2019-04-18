@@ -1,0 +1,53 @@
+<?php
+/**
+ * Шапка сайта:
+ *   - Все всплывающие окна на сайте (скрыты по умолчанию)
+ *   - Меню основных страниц сайта, разбитое на две части - левую и правую
+ *   - Блок с логотипом сайта, формой "Заказать звонок", режимом работы и корзиной товаров
+ *   - Блок с меню каталога товаров, формой поиска, кнопкой сравнения товаров, кнопки входа на сайт (или панели управления пользователя)
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$category = $variables;
+$settingsContainer = $this->getCommonVar('settingsContainer');
+$brands = $settingsContainer->getValue('brands');
+?>
+
+<? foreach($category['items'] as $item1): ?>
+    <? if(isset($item1['items'])): ?>
+        <div class="cats_item">
+            <a href="<?= $item1['link'] ?>" class="sub_link"><?= $item1['name'] ?></a>
+
+            <div class="sub_cats">
+                <div class="grid">
+                    <ul>
+                        <? foreach($item1['items'] as $item): ?>
+                            <li><a href="<?= $item['link'] ?>"><?= $item['name'] ?></a></li>
+                        <? endforeach; ?>
+                    </ul>
+                    <? if(isset($item1['img'])): ?>
+                        <div class="img" style="background-image: url(<?= $item1['img'] ?>)"></div>
+                    <? endif; ?>
+
+                </div>
+            </div>
+        </div>
+
+    <? else: ?>
+        <div class="cats_item">
+            <a href="<?= $item1['link'] ?>"><?= $item1['name'] ?></a>
+        </div>
+    <? endif; ?>
+
+<? endforeach; ?>
+<? if(sizeof($brands)): ?>
+    <? $page = $brands[0]; ?>
+    <div class="cats_item">
+        <a href="<?= $page->link ?>"><?= $page->name ?></a>
+    </div>
+<? endif; ?>
+
+
+

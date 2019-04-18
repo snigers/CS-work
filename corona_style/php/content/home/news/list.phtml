@@ -1,0 +1,29 @@
+<?php
+/**
+ * Список последних новостей на главной.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $newsItemList
+ */
+
+$lastNews = $this->macros('news','lastlistCustom',[]);
+$newsItemList = $lastNews['items'];
+$pagination = $this->getPagination($lastNews);
+?>
+
+<?php if (count($newsItemList) > 0): ?>
+	<section class="articles_block">
+		<div class="cont">
+			<div class="data">
+				<div class="items">
+					<? foreach($lastNews['items'] as $item): ?>
+							<?= $item['html'] ?>
+					<? endforeach; ?>
+				</div>
+				<?= $this->render($pagination, 'library/pagination') ?>
+			</div>
+		</div>
+	</section>
+
+<?php endif; ?>

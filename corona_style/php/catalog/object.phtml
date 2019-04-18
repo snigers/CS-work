@@ -1,0 +1,442 @@
+<?php
+/**
+ * Страница товара.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+// Побочный эффект: страница товара добавляется в список недавно посещенных страниц
+$this->macros('content', 'addRecentPage', [$variables['pageId']]);
+$photos = $this->macros('catalog', 'getProductPhoto');
+$page = $variables['page'];
+$price = $this->macros('catalog', 'getPrice');
+
+$one_joke = $page->one_joke;
+//$parent = $this->macros("catalog","get1CParent",[$page]);
+$parent = $page->this_child ? $this->getPageById($page->getParentId()) : false;
+$linkedProd = $this->macros('catalog', 'getLinkedProd',[$parent ? $parent->id : $page->id]);
+$getProperties = $this->macros("catalog","getProperties");
+$getColors = array();
+if($page->this_child || $page->this_parent){
+    $pageId = $page->this_child ? $page->getParentId() : $page->id;
+    $getColors = $this->macros("catalog","getColors",[$pageId]);
+}
+
+
+if ($page->id == 109796):
+?>
+
+<div id="bestItems" class="tab-pane fade in">
+	<div class="row subsection_container">
+		<div class="subsection">
+			<?php foreach ($this->getBestCategory() as $category): ?>
+				<?= $this->render($category, 'catalog/category/preview') ?>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>
+
+<? else: ?>
+<section class="product_info">
+    <div class="images left">
+        <div class="grid">
+            <? foreach($photos['items'] as $item): ?>
+                <div class="item">
+                    <a href="<?= $item['img'] ?>" class="fancy_img" data-fancybox="product_photo">
+                        <img class="zoomImg" src="<?= $item['img'] ?>" alt="<?= $page->h1 ?>" data-zoom-image="<?= $item['img'] ?>" />
+                    </a>
+                </div>
+            <? endforeach; ?>
+        </div>		
+		    <p class="text_block">
+                <!-- <div style="font: ProximaNova; text-indent: 30px;">
+                    <h4 class="data_cart"><strong>Доставка</strong></h4>
+                        <ul class="data_cart" style="list-style-type: none;">
+                            <li style="text-indent: 15px;">Все товары мы отправляем курьерской службой СДЭК до двери или пункта выдачи.</li>
+                            <li style="text-indent: 15px;">По Москве товар доставляется 1-2 дня.</li>
+                            <li style="text-indent: 15px;">Стоимость доставки по Москве <b id="cuca"></b> рублей.</li>
+                            <li style="text-indent: 15px;">По России – 2-6 дней (в зависимости от региона).</li>
+                            <li style="text-indent: 15px;">Точную стоимость до вашего города уточняйте у менеджеров по телефону <a class="phone" href="tel:88005113868">8 (800) 511-38-68</a> для звонков из России.</li>
+                            <li style="text-indent: 15px;">Или для звонков из Казахстана <a class="phone" href="tel:778000806911">77 (800) 080-69-11</a></li>
+                        </ul>
+                    </div>
+                    <div style="font: ProximaNova; text-indent: 30px;">
+                        <h4 class="data_cart"><strong>Примерка.</strong></h4>
+                        <ul class="data_cart" style="list-style-type: none;">
+                            <li style="text-indent: 15px;">При доставке курьером вы можете померить и ознакомиться с заказом при получении.</li>
+                            <li style="text-indent: 15px;">В случае, если вещь не подошла, вы оплачиваете только доставку.</li>
+                            <li style="text-indent: 15px;">Чтобы исключить ситуации, когда вещь велика или мала, мы можем отправить вам одну модель разных размеров</li>
+                            <li style="text-indent: 15px;">(до 3-х вещей в одной посылке)</li>
+                        </ul>
+                    </div>
+                    <div style="font: ProximaNova; text-indent: 30px;">
+                        <h4 class="data_cart"><strong>Оплата.</strong></h4>
+                        <ul class="data_cart" style="list-style-type: none;">
+                            <li style="text-indent: 15px;">Оплата происходит несколькими способами: наличными или банковской картой курьеру при получении</li>
+                            <li style="text-indent: 15px;">Или на пункте выдачи (наложенный платеж), а также при оформлении заказа на нашем сайте</li>
+                            <li style="text-indent: 15px;">через онлайн-кассу “ROBO. Касса”.</li>
+                        </ul>
+                </div> -->
+            </p>			
+        </div>
+
+
+    <div class="data right">
+        <h1 class="product_name"><?= $page->h1 ?></h1>
+        <? if($sku = $page->sku): ?>
+            <div class="articul"><?= $this->translate('sku') ?>: <?= $sku ?></div>
+        <? endif; ?>
+
+
+        <div class="compare">
+            <a href="#" class="link compare_link" data-id="<?= $page->id ?>"><span><?= $this->translate('add_to_compare') ?></span></a>
+
+            <div class="success success_add">
+                <div class="title"><?= $page->h1 ?></div>
+                <div><?= $this->translate('add_to_compare') ?></div>
+            </div>
+
+            <div class="success success_del">
+                <div class="title"><?= $page->h1 ?></div>
+                <div><?= $this->translate('add_to_compare') ?></div>
+            </div>
+        </div>
+
+
+        <div class="price">
+            <?= $price['price'] ?> <div class="currency">ц</div>
+            <? if(isset($price['old_price'])): ?>
+                <div class="old"><?= $price['old_price'] ?> <div class="currency">ц</div></div>
+            <? endif; ?>
+        </div>
+<!-- Купить в один клик -->
+        <div class="buy">
+            <!-- <a href="#quike_buy_modal" class="quike_buy_link modal_link"><? /*= $this->translate('buy_one_click') */?></a> -->
+            <button class="b24-web-form-popup-btn-16 quike_buy_link"><?= $this->translate('buy_one_click') ?></button>
+        </div>
+
+        <?
+            $properties = $this->getProductPropertyChunks($page);
+            if($parent){
+                $parent_properties = $this->getProductPropertyChunks($parent);
+                $properties = array_merge($parent_properties,$properties);
+            }
+        ?>
+        
+    <!-- Убрал странну из вывода св-в товара 19.02.19 -->
+    <!-- style="background-color: <? /* if ($label_page['color'] == 'кофе') echo '#8f4e1de8' */?>" -->
+        <? if(sizeof($properties)): ?>
+            <div class="features">
+                <? $show_color = false; ?>
+                <?php foreach ($properties as $index => $property): ?>
+                    <? if($property['name'] == 'sizes'): ?>
+                        <? continue; ?>
+                    <? endif; ?>
+                    <? if($property['name'] == 'cvet'): ?>
+                        <? if(!$show_color): ?>
+                            <div class="item colors">
+                                <? if(isset($getColors['total'])): ?>
+                                    <?= $property['title'] ?>:
+                                    <div class="vals">
+                                        <? foreach($getColors['items'] as $label_page): ?>
+
+                                            <?
+                                            $active = isset($label_page['selected']) ? "active" : "";
+                                            ?>
+                                            <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
+                                                <?= $label_page['color'] ?>
+                                            </a>
+                                        <? endforeach; ?>
+                                    </div>
+                                <? else: ?>
+                                    <?= $property['title'] ?>: <?= $property['value'] ?>
+                                <? endif; ?>
+
+                            </div>
+                            <? $show_color = true; ?>
+                        <? endif; ?>
+
+                    <? else: ?>
+                        <? if(($property['value'] != "") AND ($property['title'] != "Страна")): ?>
+                            <div class="item">
+                                <?= $property['title'] ?>: <?= $property['value'] ?>
+                            </div>
+                        <? endif; ?>
+                    <? endif; ?>
+
+                <?php endforeach; ?>
+            </div>
+        <? endif; ?>
+
+        <? if(isset($getProperties['pages'])): ?>
+            <div class="properties">
+                <? if(sizeof($getProperties['properties']['sizes'])): ?>
+                    <div class="size">
+                        <div class="title"><?= $this->translate('size') ?>:</div>
+                        <div class="vals">
+                            <? foreach($getProperties['pages'] as $label_page): ?>
+                                <?
+                                    $active = isset($label_page['selected']) ? "active" : "";
+                                ?>
+                                <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
+                                    <?= $label_page['size'] ?>
+                                </a>
+                            <? endforeach; ?>
+                        </div>
+                    </div>
+                    <?php
+                        $commonQuantity = $this->getCommonQuantity($page->id);
+                        if (!sizeof($commonQuantity)) {
+                            $commonQuantity = $this->getCommonQuantity($page->getParentId());
+                        }
+                        if($this->domainId() == 1 and sizeof($commonQuantity)):?>
+                        <div class="size">
+                            <div class="title"><?= $this->translate('amount') ?>:</div>
+                            <div class="vals">
+                                <? foreach($commonQuantity as $amount): ?>
+                                    <span>
+                                        <?=$amount?> шт.
+                                    </span>
+                                <? endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif;?>
+                <? endif; ?>
+            </div>
+        <? endif; ?>
+
+        <!-- Вывод размеров в списке -->
+        <!-- <? if(sizeof($getProperties['properties']['sizes'])): ?>
+            <div class="size">
+                <div class="title"><?= $this->translate('size') ?>:
+            </div>
+
+                
+                <select class="selectsize" id="selectSizeId" onChange="selectChange()">
+                    <option value="<?= $page->id ?>">
+                            Выберите размер
+                    </option>
+                    <? foreach($getProperties['pages'] as $label_page): ?>
+                        <?{
+                            $active = isset($label_page['selected']) ? "active" : "";
+                        ?>
+                        <option value="<?= $label_page['id'] ?>">
+                            <div>
+                                <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
+                                    <?= $label_page['size'] ?>
+                                </a>
+                            </div>
+                        </option>
+                        <? } ?>
+                    <? endforeach; ?>
+                    
+                </select>
+                
+            </div>
+
+        <? endif; ?> -->
+       
+
+
+<!-- Купить в один клик перенес выше -->
+        <div class="buy">
+            <a href="#success_cart" class="buy_link once" id="selectBuy" data-id="<?= $page->id ?>"><span><?= $this->translate('add_to_cart') ?></span></a>
+        </div>
+		
+		
+		<p style="margin-top:20px;">
+		
+		 <?
+        if($parent){
+            $desc = $parent->description ? $parent->description : $page->description;
+        }else{
+            $desc = $page->description;
+        }
+
+    ?>
+    <? if($desc): ?>
+        <div class="description text_block">
+            <h3><?= $this->translate('descr') ?></h3>
+            <?= $desc ?>
+        </div>
+    <? endif; ?>
+		
+		</p>
+
+    <details class="data_cart_after">
+        <summary class="data_cart data_cart_hover" ><strong class="data_cart_hover">Доставка</strong></summary>
+        <ul style="list-style-type: none;">
+            <li style="text-indent: 15px;">- <b id='selectId'></b> Все товары мы отправляем курьерской службой СДЭК до двери или пункта выдачи.</li>
+            <li style="text-indent: 15px;">- По Москве товар доставляется 1-2 дня.</li>
+            <li style="text-indent: 15px;">- Стоимость доставки по Москве <b id="cuca"></b> рублей.</li>
+            <li style="text-indent: 15px;">- По России – 2-6 дней (в зависимости от региона).</li>
+            <li style="text-indent: 15px;">- Точную стоимость до вашего города уточняйте у менеджеров по телефону <a class="phone" href="tel:88005113868">8 (800) 511-38-68</a> для звонков из России.</li>
+            <li style="text-indent: 15px;">- Или для звонков из Казахстана <a class="phone" href="tel:778000806911">77 (800) 080-69-11</a></li>
+        </ul>
+    </details>
+    <details>
+        <summary class="data_cart data_cart_hover" ><strong class="data_cart_hover">Примерка</strong></summary>
+        <ul style="list-style-type: none;">
+            <li style="text-indent: 15px;">- При доставке курьером вы можете померить и ознакомиться с заказом при получении.</li>
+            <li style="text-indent: 15px;">- В случае, если вещь не подошла, вы оплачиваете только доставку.</li>
+            <li style="text-indent: 15px;">- Чтобы исключить ситуации, когда вещь велика или мала, мы можем отправить вам одну модель разных размеров (до 3-х вещей в одной посылке)</li>
+        </ul>
+    </details>
+    <details>
+        <summary class="data_cart data_cart_hover" ><strong class="data_cart_hover">Оплата</strong></summary>
+        <ul style="list-style-type: none;">
+            <li style="text-indent: 15px;">- Оплата происходит несколькими способами: наличными или банковской картой курьеру при получении</li>
+            <li style="text-indent: 15px;">- Или на пункте выдачи (наложенный платеж), а также при оформлении заказа на нашем сайте через онлайн-кассу “ROBO. Касса”.</li>            
+        </ul>
+    </details>
+    <details class="table_razmer">
+        <summary class="data_cart data_cart_hover" ><strong class="data_cart_hover">Размерная сетка</strong></summary>
+        <table class="table_razmer" style="width: 100%;">
+                <tr>
+                    <th>
+                        <p>RU</p>
+                        <p>размер</p>
+                    </th>
+                    <th>
+                        <p>Международный</p>
+                        <p>размер</p>
+                    </th>
+                    <th>Обхват груди, см</th>
+                    <th>Обхват талии, см</th>
+                    <th>Обхват бедер, см</th>
+                </tr>
+                <tr>
+                    <td>40-42</td>
+                    <td>XS</td>
+                    <td>88-90</td>
+                    <td>60-64</td>
+                    <td>88-90</td>
+                </tr>
+                <tr>
+                    <td>44-46</td>
+                    <td>S</td>
+                    <td>90-92</td>
+                    <td>64-68</td>
+                    <td>90-94</td>
+                </tr>
+                <tr>
+                    <td>46-48</td>
+                    <td>M</td>
+                    <td>92-96</td>
+                    <td>68-75</td>
+                    <td>94-96</td>
+                </tr>
+                <tr>
+                    <td>48-50</td>
+                    <td>L</td>
+                    <td>96-100</td>
+                    <td>75-80</td>
+                    <td>96-104</td>
+                </tr>
+                <tr>
+                    <td>50-52</td>
+                    <td>XL</td>
+                    <td>100-108</td>
+                    <td>80-84</td>
+                    <td>104-108</td>
+                </tr>
+        </table>
+    </details>
+
+
+		
+		
+    </div>
+    <div class="clear"></div>
+   
+   
+  
+                                   
+                                </section>
+
+
+<? if(isset($linkedProd['items'])): ?>
+    <section class="products">
+        <div class="cont">
+            <div class="block_title"><div><?= $this->translate('products_in_collections') ?></div></div>
+
+            <div class="slider owl-carousel carousel2">
+                <? foreach($linkedProd['items'] as $item): ?>
+                    <?= $item['html'] ?>
+                <? endforeach; ?>
+            </div>
+        </div>
+    </section>
+<? endif; ?>
+
+<? if(isset($linkedProd['likes'])): ?>
+    <section class="products">
+        <div class="cont">
+            <div class="block_title"><div><?= $this->translate('will_like') ?></div></div>
+
+            <div class="slider owl-carousel carousel2">
+                <? foreach($linkedProd['likes'] as $item1): ?>
+                    <?= $item1['html'] ?>
+                <? endforeach; ?>
+            </div>
+        </div>
+    </section>
+<? endif; ?>
+
+
+<div class="modal" id="quike_buy_modal">
+    <div class="block_title"><div><?= $this->translate('buy_one_click') ?></div></div>
+
+    <?= $this->renderCache($this->macros('webforms','add',[193]),'webforms/callback','webforms_add_193'); ?>
+</div>
+
+
+
+
+<div class="modal" id="sizes_fail">
+    <div class="block_title"><div><?= $this->translate('product_in_cart') ?></div></div>
+
+    <div class="product">
+        <div class="name"><?= $page->h1 ?></div>
+        <img src="<?= $photos['items'][0]['img'] ?>" alt="<?= $page->h1 ?>">
+    </div>
+
+    <div class="links">
+        <!-- Добавил якорь для корзины -->
+        <a href="/emarket/cart/#yak1" class="cart_link"><?= $this->translate('go_cart') ?></a>
+
+        <a href="#" class="close"><?= $this->translate('go_sales') ?></a>
+    </div>
+<!--     <div class="block_title"><div><?= $this->translate('select_size_header') ?></div></div>
+
+    <div class="line">
+        <p><?= $this->translate('select_size') ?></p>
+    </div>
+
+    <div class="links">
+        <a href="#" class="close"><?= $this->translate('go_sales') ?></a>
+    </div> -->
+</div>
+
+
+<div class="modal" id="success_cart">
+    <div class="block_title"><div><?= $this->translate('product_in_cart') ?></div></div>
+
+    <div class="product">
+        <div class="name"><?= $page->h1 ?></div>
+        <img src="<?= $photos['items'][0]['img'] ?>" alt="<?= $page->h1 ?>">
+    </div>
+
+    <div class="links">
+        <!-- Добавил якорь для корзины -->
+        <a href="/emarket/cart/#yak1" class="cart_link"><?= $this->translate('go_cart') ?></a>
+
+        <a href="#" class="close"><?= $this->translate('go_sales') ?></a>
+    </div>
+</div>
+
+<?endif;?>
+
+<!-- End Основная часть -->
+

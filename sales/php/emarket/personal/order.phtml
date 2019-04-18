@@ -1,0 +1,93 @@
+<?php
+/**
+ * Ряд с информацией об оформленном заказе.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $order
+ */
+
+$order = $this->macros('emarket','orderCustom',[$variables['id']]);
+
+?>
+<div class="item">
+    <div class="head">
+        <div class="number_col"><?= $order['number'] ?></div>
+        <div class="date_col"><?= $order['data_create'] ?></div>
+        <div class="status_col"><?= $order['status']->name ?></div>
+        <div class="price_col"><?= $order['summary']['price']['actual'] ?> руб.</div>
+    </div>
+
+    <div class="data">
+        <div class="cart_info">
+            <table>
+                <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Наименование товара</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Скидка</th>
+                    <th>Сумма</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <? foreach($order['items'] as $item): ?>
+                    <tr class="id_<?= $item['id'] ?>">
+                        <td class="image">
+                            <a href="<?= $item['page']->link ?>">
+                                <? $img = '/images/nofoto.jpg';
+                                if(array_key_exists('product',$item) !== false){
+                                    if(array_key_exists('img',$item['product']) !== false){
+                                        $img = $item['product']['img']['src'];
+                                    }
+                                }
+                                ?>
+                                <img src="<?= $img ?>" alt="<?= $item['name'] ?>">
+
+                            </a>
+                        </td>
+
+                        <td class="info">
+                            <div class="name">
+                                <a href="<?= $item['page']->link ?>"><?= $item['name'] ?></a>
+                            </div>
+
+                            <? if(sizeof($item['options']['items'])): ?>
+                                <div class="size">Размер: <?= $item['options']['items'][0]['name'] ?></div>
+                            <? endif; ?>
+
+                            <? if(isset($item['product']['sku'])): ?>
+                                <div class="articul">Артикул: <?= $item['product']['sku'] ?></div>
+                            <? endif; ?>
+
+                        </td>
+                        <td class="price" data-column="Цена" data-price="<?= $item['product']['price']['price_not_format'] ?>">
+                            <span class="val"><?=$item['price']['actual'] ?></span> <span class="currency">Ц</span>
+                            <?
+                            $old_price = isset($item['price']['original']) ? $item['price']['original'] : 0;
+                            if(!$old_price && isset($item['product']['price']['old_price'])){
+                                $old_price = $item['product']['price']['old_price'];
+                            }
+                            ?>
+                            <div class="old"><?= $old_price ?> <span class="currency">Ц</span></div>
+
+
+                        </td>
+                        <td class="amount" data-column="Количество"><?= $item['amount'] ?></td>
+
+                        <td class="discount" data-column="Скидка"></td>
+                        <td class="price total" data-column="Сумма"><span class="val"><?= isset($item['total-price']['actual']) ? $item['total-price']['actual'] : 0 ?></span> <span class="currency">Ц</span></td>
+                    </tr>
+
+                <? endforeach; ?>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

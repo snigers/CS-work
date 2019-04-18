@@ -1,0 +1,72 @@
+@media (max-width:1023px){.block_title{font-size:20px;line-height:30px;margin-bottom:30px;}
+.content{width:100%;}
+header .info{padding-top:20px;}
+header .logo{width:100%;margin-bottom:20px;}
+header .col.right{width:100%;}
+header .mob_menu_link{display:block;}
+header .cats{position:absolute;z-index:999;top:-90px;left:0;display:none;width:100%;padding:15px;background:#fff;}
+header .cats .cats_item > a{text-align:center;}
+header .cats .cats_item:hover .sub_cats{display:none;}
+header .cats .cats_item .sub_cats{position:relative;width:100%;margin-bottom:10px;}
+header .cats .sub_cats:after{left:50%;margin-left:-8px;}
+header .cats .sub_cats ul{width:100%;margin-bottom:-15px;padding:30px;column-count:4;-webkit-column-count:4;-moz-column-count:4;-webkit-column-gap:30px;-moz-column-gap:30px;column-gap:30px;}
+header .cats .sub_cats li{margin-bottom:15px;}
+header .cats .sub_cats .img{display:none;}
+header .search{width:100%;}
+header .search_link{display:none;}
+#search_modal{position:relative;display:block;width:100%;margin:0;padding:0;background:none;box-shadow:none;}
+aside{width:100%;padding:0;}
+aside .filter .form{display:flex;margin-left:-40px;justify-content:flex-start;align-items:stretch;align-content:flex-start;flex-wrap:wrap;}
+aside .filter .item{width:calc(50% - 40px);margin-bottom:30px;margin-left:40px;}
+aside .filter .item + .item{margin-top:0;}
+aside .filter .submit{width:calc(100% - 40px);margin-left:40px;padding:0;}
+.main_slider{width:100%;margin-bottom:15px;}
+.promo_banners{display:flex;width:calc(100% + 15px);max-width:calc(100% + 15px);margin-bottom:40px;margin-left:-15px;justify-content:flex-start;align-items:stretch;align-content:flex-start;flex-wrap:wrap;}
+.promo_banners .item{width:calc(50% - 15px);height:265px;margin-left:15px;}
+.promo_banners .item + .item{margin-top:0;}
+.advantages{padding:40px 15px 10px;}
+.advantages .grid{margin-bottom:0;}
+.advantages .item{width:calc(33.333% - 30px);margin-bottom:30px;}
+.articles .item{width:calc(100% - 25px);}
+.cart_info{margin-bottom:50px;}
+.cart_info table thead{display:none;}
+.cart_info table tr{position:relative;display:inline-block;width:100%;vertical-align:top;border-bottom:1px solid #d9cfc8;}
+.cart_info table td{position:relative;display:block;float:left;width:100%;padding:15px 10px;border:none;}
+.cart_info table td + td{border:none;}
+.cart_info table td.info{width:calc(100% - 126px);padding-right:64px;}
+.cart_info table td.amount,
+.cart_info table td.price,
+.cart_info table td.discount{width:calc((100% - 126px)/4);padding-top:20px !important;}
+.cart_info table td.delete{position:absolute;top:0;right:0;width:44px;padding:0;border:none;}
+.cart_info table td.delete a{width:44px;height:44px;}
+.cart_info table td:before{color:#000;font:13px/14px ProximaNova;position:absolute;top:0;left:0;display:block;width:100%;height:20px;padding:0 10px;content:attr(data-column);text-align:left;white-space:nowrap;letter-spacing:0;text-transform:none;opacity:.4;}
+.cart_info table tfoot td.links{width:auto;}
+.cart_info table tfoot td.total_price{float:right;width:auto;padding-right:0;}
+.checkout{margin-bottom:50px;}
+.checkout form{margin-left:-50px;}
+.checkout .step{width:calc(50% - 50px);margin-left:50px;}
+.lk .personal_info,
+.lk .personal_form,
+.lk .password_form{width:100%;margin-bottom:20px;padding:15px;}
+.lk .history{margin-bottom:50px;}
+.lk .history .titles{padding:0 15px 15px;}
+.lk .history > .item .head{padding:15px;}
+.lk .history > .item > .data{padding-top:0;}
+.lk .history > .item .cart_info table td.image{width:141px;padding-left:15px;}
+.lk .history > .item .cart_info table td.info{width:calc(100% - 141px);padding-right:24px;}
+.lk .history > .item .cart_info table td.amount,
+.lk .history > .item .cart_info table td.price,
+.lk .history > .item .cart_info table td.discount{width:calc((100% - 141px)/4);}
+.product_info .images{width:calc(100% - 308px);}
+.product_info .data{width:278px;}
+.product_info .description{line-height:24px;}
+.text_block{padding-bottom:40px;}
+.text_block table th,
+.text_block table td{padding:10px 15px;}
+footer .phone{display:none;}
+footer .col.left{padding-bottom:0;}
+footer .privacy_policy{position:relative;margin-top:30px;}
+footer .links{margin-left:0;}
+footer .contacts{margin-left:0;text-align:left;}
+footer .creator{right:auto;left:0;}
+}

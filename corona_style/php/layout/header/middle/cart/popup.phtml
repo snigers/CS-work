@@ -1,0 +1,60 @@
+<?php
+/**
+ * Всплывающее окно с товарами в корзине.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $productList
+ */
+
+$cart = $variables;
+$productList = $this->getCartProducts($cart);
+?>
+
+<div class="tooltip_block" id="basketContent">
+	<div class="basket_info_tooltip">
+		<div class="item_list">
+			<?php foreach ($productList as $product): ?>
+				<div class="row">
+					<a href="<?= $this->getPath($product['page']) ?>">
+						<div class="col-md-4 item_img">
+							<?= $this->render(
+								[
+									'src' => $this->getPhotoPath($product['page']),
+									'alt' => $product['name'],
+									'width' => 75,
+									'height' => 50,
+								],
+								'library/thumbnail'
+							) ?>
+						</div>
+
+						<div class="col-md-8 item_about">
+							<p><?= $product['name'] ?></p>
+						</div>
+					</a>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="result_price">
+			<div class="row text">
+				<div class="col-xs-6">
+					<span><?= $this->translate('result_price') ?></span>
+				</div>
+
+				<div class="col-xs-6 text-right">
+					<h3><?= $this->getOrderPrice($cart) ?></h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<a href="<?= $this->getCartLink() ?>">
+					<button class="basket_btn">
+						<?= $this->translate('go_to_basket') ?>
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

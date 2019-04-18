@@ -1,0 +1,26 @@
+<?php
+/**
+ * Опция доставки типа "самовывоз" в рамках выбора адреса доставки.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$selfDelivery = $variables;
+?>
+
+<div>
+	<label>
+		<input
+			type="radio"
+			name="delivery-address"
+			value="delivery_<?= $selfDelivery['id'] ?>"
+			data-type="<?= $selfDelivery['type-class-name'] ?>"
+			<?= $this->getRadioStatusByActivity($selfDelivery) ?>
+			required
+		/>
+
+		<span></span>
+
+		<?= $selfDelivery['name'] ?>
+	</label>
+</div>

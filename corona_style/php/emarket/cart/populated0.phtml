@@ -1,0 +1,370 @@
+<?php
+/**
+ * Непустая корзина:
+ *   - Заголовок с названиями колонок
+ *   - Список товаров
+ *   - Блок "Оформить заказ"
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+    $settingsContainer = $this->getCommonVar('settingsContainer');
+    $basketCustom = $this->macros('emarket','basketCustom');
+    $purchasing_one_step = $this->macros('emarket', 'purchasing_one_step');
+?>
+
+
+<section class="cart_info">
+    <table>
+        <thead>
+        <tr>
+            <th colspan="2"><?= $this->translate('product') ?></th>
+            <th><?= $this->translate('price') ?></th>
+            <th><?= $this->translate('qty') ?></th>
+            <th><?= $this->translate('discount') ?></th>
+            <th><?= $this->translate('total') ?></th>
+            <th><?= $this->translate('remove') ?></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <? foreach($basketCustom['items'] as $item): ?>
+            <tr class="id_<?= $item['id'] ?>">
+                <td class="image">
+                    <a href="<?= $item['page']->link ?>">
+                        <? if(array_key_exists('img',$item['product']) !== false): ?>
+                            <img src="<?= $item['product']['img']['src'] ?>" alt="<?= $item['name'] ?>">
+                        <? else: ?>
+                            <img src="/images/nofoto.jpg" alt="<?= $item['name'] ?>">
+                        <? endif ?>
+
+                    </a>
+                </td>
+
+                <td class="info">
+                    <div class="name">
+                        <a href="<?= $item['page']->link ?>"><?= $item['name'] ?></a>
+                    </div>
+
+                    <? if(sizeof($item['options']['items'])): ?>
+                        <div class="size"><?= $this->translate('sizes') ?> <?= $item['options']['items'][0]['name'] ?></div>
+                    <? endif; ?>
+
+                    <? if(isset($item['product']['sku'])): ?>
+                        <div class="articul"><?= $this->translate('sku') ?>: <?= $item['product']['sku'] ?></div>
+                    <? endif; ?>
+
+                </td>
+                <td class="price" data-column="<?= $this->translate('price') ?>" data-price="<?= $item['product']['price']['price_not_format'] ?>">
+                    <span class="val"><?= isset($item['price']['actual']) ? $item['price']['actual'] : 0 ?></span> <span class="currency">Ц</span>
+                    <?
+                        $old_price = isset($item['price']['original']) ? $item['price']['original'] : 0;
+                        if(!$old_price && isset($item['product']['price']['old_price'])){
+                            $old_price = $item['product']['price']['old_price'];
+                        }
+                        ?>
+                        <? if($old_price): ?>
+                            <div class="old"><?= $old_price ?> <span class="currency">Ц</span></div>
+                        <? endif; ?>
+
+
+
+
+
+                </td>
+                <td class="amount" data-column="<?= $this->translate('qty') ?>">
+                    <div class="box">
+                        <a href="#" class="minus update_price">-</a>
+                        <? $common_quantity = $item['page']->common_quantity ? $item['page']->common_quantity : 0; ?>
+                        <input type="text" value="<?= $item['amount'] ?>" data-minimum="1" data-maximum="<?= $common_quantity ?>" class="input" maxlength="3" data-id="<?= $item['id'] ?>"/>
+                        <a href="#" class="plus update_price">+</a>
+                    </div>
+                </td>
+
+                <td class="discount" data-column="<?= $this->translate('discount') ?>"></td>
+                <td class="price total" data-column="<?= $this->translate('total') ?>"><span class="val"><?= isset($item['total-price']['actual']) ? $item['total-price']['actual'] : 0 ?></span> <span class="currency">Ц</span></td>
+
+                <td class="delete">
+                    <a href="#" data-id="<?= $item['id'] ?>" class="delete_link"></a>
+                </td>
+            </tr>
+        <? endforeach; ?>
+        </tbody>
+
+   
+        
+        <tfoot>
+        <tr>
+            <td colspan="5" class="links">
+			
+			<!--
+                <a href="/" class="continue_link">
+                    <span class="icon"></span><?= $this->translate('go_sales') ?>
+                </a>
+
+                <a href="/" class="clear_link">
+                    <span class="icon"></span><?= $this->translate('clear_cart') ?>
+                </a>
+				
+				-->
+				
+            </td>
+
+            <td colspan="2" class="total_price">
+                <span class="val cart_all_summary_original"><?= isset($basketCustom['summary']['price']['original']) ? $basketCustom['summary']['price']['original'] : isset($basketCustom['summary']['price']['actual']) ? $basketCustom['summary']['price']['actual'] : 0 ?></span> <span class="currency">Ц</span>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <!-- Якорь -->
+    <div style="position:absolute;margin-top:-200px;" id="yak1"></div> 
+</section>
+
+<section class="checkout">
+    <form action="/emarket/saveInfoCustom" id="saveInfoCustom" class="form custom_submit">
+        <div class="step">
+            <div class="head">
+                <div class="number"><?= $this->translate('step') ?> 1</div>
+                <div class="title"><?= $this->translate('shipping_method_and_address') ?></div>
+            </div>
+
+
+            <div class="line delivery_methods">
+                <? foreach($purchasing_one_step['onestep']['delivery_choose'] as $i=>$item): ?>
+                    <? $checked =  ($i == 0) ? "checked" : "" ?>
+                    <div class="line">
+                        <div class="field">
+                            <input type="radio" name="delivery-id" id="delivery_method<?= $item['id'] ?>"  value="<?= $item['id'] ?>" <?= $type ?> <?= $payments  ?> <?= $checked ?> />
+                            <label for="delivery_method<?= $item['id'] ?>"><?= $item['name'] ?></label>
+                        </div>
+                    </div>
+                <? endforeach; ?>
+            </div>
+
+            <div class="delivery_form">
+                <?php
+                $form_data = $this->macros('data', 'getCreateForm', [37]);
+                $fields = $form_data['groups'][0]['fields'];
+                ?>
+                <!-- Закоментил Индекс и улицу -->
+                <?php
+                /* $field_name = 'index';
+                foreach($fields as $i => $field){
+                    if($field['name'] == $field_name){
+                        $field['class'] = ' grid';
+                        echo $this->render($field, "data/field");
+                        continue(1);
+                    }
+                } */
+                ?>
+                <?php
+                $field_name = 'city';
+                foreach($fields as $i => $field){
+                    if($field['name'] == $field_name){
+                        $field['class'] = ' grid';
+                        echo $this->render($field, "data/field");
+                        continue(1);
+                    }
+                }
+                ?>
+                <?php
+                /* $field_name = 'street';
+                foreach($fields as $i => $field){
+                    if($field['name'] == $field_name){
+                        $field['class'] = ' grid';
+                        echo $this->render($field, "data/field");
+                        continue(1);
+                    }
+                } */
+                ?>
+
+                <!-- Ниже закоментил номера домов и квартир -->
+
+                <!-- <div class="line grid margin_top">
+                    <div class="name"></div>
+
+                    <div class="field">
+                        <div class="lines"> -->
+                            <?php
+                            /* $field_name = 'house';
+                            foreach($fields as $i => $field){
+                                if($field['name'] == $field_name){
+                                    $field['class'] = '';
+                                    echo $this->render($field, "data/field");
+                                    continue(1);
+                                }
+                            } */
+                            ?>
+                            <?php
+                            /* $field_name = 'korpus';
+                            foreach($fields as $i => $field){
+                                if($field['name'] == $field_name){
+                                    $field['class'] = '';
+                                    echo $this->render($field, "data/field");
+                                    continue(1);
+                                }
+                            } */
+                            ?>
+
+                            <?php
+                            /* $field_name = 'flat';
+                            foreach($fields as $i => $field){
+                                if($field['name'] == $field_name){
+                                    $field['class'] = '';
+                                    echo $this->render($field, "data/field");
+                                    continue(1);
+                                }
+                            } */
+                            ?>
+                <!--         </div>
+                    </div>
+                </div> -->
+
+            </div>
+
+
+        </div>
+
+		
+
+        <div class="step">
+            <div class="head">
+                <div class="number"><?= $this->translate('step') ?> 2</div>
+                <div class="title"><?= $this->translate('customer_information') ?></div>
+            </div>
+
+
+            <?php
+            $form_data = $this->macros('data', 'getEditForm', [$this->macros('emarket', 'getCustomerId'),'','',true]);
+            if(permissionsCollection::getInstance()->isAuth()){
+                ?>
+
+                <?
+
+                $group_names = array("short_info","contact_props","personal_info");
+                $fields = array();
+                foreach($form_data['group'] as $group){
+                    if(array_search($group['name'],$group_names) !== false){
+                        $fields = array_merge($fields,$group['fields']);
+                        //continue(1);
+                    }
+                }
+                foreach($fields as $i => $field){
+                    ?>
+                    <div class="line grid">
+                    <!-- Привел в соответствие с рекомендациями UMI-soft 15/03/19 -->
+                        <? if ($field['type'] != 'boolean'): ?>
+                            <div class="name"><?= $field['title'] ?><? if($field['title']=="Телефон") echo " <span style='color:red;'> * </span> "; ?></div>
+                        <?endif;?>
+                        <div class="field">
+                            <?= $this->render($field, "data/form_field/{$field['type']}") ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            else{
+
+                /* Изменил строку ниже */
+               /* $fields = array("fname","lname","father_name","email","phone"); */
+               /* Добавил подарочную упаковку 15.03.19 */
+            //    ,"podarochnaya_upakovka"
+
+               $fields = array("fname","email","phone","podarochnaya_upakovka");
+                foreach($form_data['group'] as $group){
+                    foreach($group['fields'] as $field){
+                        if(array_search($field['name'],$fields) !== false){
+                            ?>
+                         <div class="line grid">
+                            <? if ($field['type'] != 'boolean'): ?>
+                                <div class="name"><?= $field['title'] ?><? if($field['title']=="Телефон") echo " <span style='color:red;'> * </span> "; ?></div>
+                            <?endif;?>
+                                <div class="field">
+                                    <?= $this->render($field, "data/form_field/{$field['type']}") ?>
+                                </div>
+                            </div>
+                            <?php
+                        }
+
+                    }
+                }
+            }
+           
+
+
+
+
+
+		   ?>
+
+		   
+		   
+		   
+		   
+            <div class="line margin_top">
+                <input type="checkbox" name="agree" id="agree_check" class="required" />
+                <label for="agree_check"><?= $this->parseTplMacros($settingsContainer->getValue('politics_form'),$settingsContainer->id) ?></label>
+            </div>
+            
+        </div>
+
+
+        <div class="step">
+            <div class="head">
+                <div class="number"><?= $this->translate('step') ?> 3</div>
+                <div class="title"><?= $this->translate('payment_methods') ?></div>
+            </div>
+
+
+            <div class="line peyment_methods">
+                <? foreach($purchasing_one_step['onestep']['payment'] as $i=>$item): ?>
+                    <? $checked = ($i == 0) ? 'checked' : ''; ?>
+                    <div class="line">
+                        <div class="field">
+                            <input type="radio"  name="payment-id" id="peyment_method<?= $item['id'] ?>" value="<?= $item['id'] ?>" <?= $checked ?>/>
+                            <label for="peyment_method<?= $item['id'] ?>"><?= $item['name'] ?></label>
+                        </div>
+                    </div>
+                <? endforeach; ?>
+            </div>
+
+
+            <div class="line">
+                <div class="name big"><?= $this->translate('order_comment') ?></div>
+
+                <div class="field">
+                    <textarea name="data[new][order_comments]"></textarea>
+                </div>
+				<!-- justify-content: flex-start; align-items: center; align-content: center; flex-wrap: nowrap; -->
+                <!-- <div style="display: flex; padding: 2% 0 0 0">
+                    <div style="width: 24%">
+                        <img src="https://coronastyle.ru/images/podarok.jpg" width="100" style="align:center; display:block; width:100px; margin:0 auto;">
+                    </div>
+                    <div style="width: 74%; padding: 0 0 0 5%">
+                        <span>Мы можем <b>упаковать</b> Ваш заказ в <b>подарочную</b> упаковку! (+500 руб. к заказу за упаковку)<br> Напишите об этом в комментарии к заказу.  </span>    
+                    </div>
+                </div> -->
+				
+				
+				
+				
+            </div>
+
+
+            <div class="submit">
+                <button type="submit" class="submit_btn"><?= $this->translate('purchase_order') ?></button>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+
+
+
+
+
+
+
+
+

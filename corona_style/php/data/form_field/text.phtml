@@ -1,0 +1,16 @@
+<?php
+/**
+ * Поле типа "Текст".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$field = $variables;
+?>
+
+<textarea
+	name="<?= $field['input_name'] ?>"
+
+	<?= isset($field['required']) ? ' required ' : '' ?>
+><?= isset($field['value']) ? $field['value'] : '' ?></textarea>

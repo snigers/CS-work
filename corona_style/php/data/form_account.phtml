@@ -1,0 +1,18 @@
+<?php
+/**
+ * Поле типа "Строка".
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$field = $variables;
+?>
+<? $required = (isset($field['required']) ? 'required' : '') ?>
+<? $class = isset($field['class']) ? $field['class'] : '' ?>
+<div class="item <?= $class ?>">
+	<div class="name"><?= $field['title'] ?><?= (isset($field['required']) ? ' * ' : '') ?></div>
+	<div class="val">
+        <?= isset($field['value']) ? $field['value'] : '' ?>
+	</div>
+</div>

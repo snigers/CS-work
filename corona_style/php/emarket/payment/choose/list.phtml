@@ -1,0 +1,29 @@
+<?php
+/**
+ * Список способов оплаты.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$paymentList = $variables;
+?>
+
+<?php foreach ($paymentList as $payment): ?>
+	<div>
+		<label>
+			<input
+				type="radio"
+				name="payment-id"
+				class="<?= $payment['type-name'] ?>"
+				value="<?= $payment['id'] ?>"
+				required
+				<?= $this->getRadioStatusByActivity($payment) ?>
+			/>
+
+			<span></span>
+
+			<?= $payment['name'] ?>
+		</label>
+	</div>
+<?php endforeach; ?>

@@ -1,0 +1,24 @@
+<?php
+/**
+ * Страница контента.
+ * Страница по умолчанию обрабатывается по отдельному шаблону `content/home/index`.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $page
+ */
+
+$advantages = $variables;
+?>
+
+<? foreach($advantages as $i=>$advantage): ?>
+    <div class="item">
+        <div class="icon">
+            <img src="images/ic_advantage1.png" alt="" />
+        </div>
+
+        <div class="name">Обмен</div>
+
+        <div class="desc">Обмен старых ювелирных украшений на новые</div>
+    </div>
+<? endforeach; ?>

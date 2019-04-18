@@ -1,0 +1,328 @@
+<?php
+/**
+ * Скелет сайта.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$page = (isset($variables['page'])) ? $variables['page'] : false;
+$pageId = $page ? $page->id : false;
+$settingsContainer = $this->getCommonVar('settingsContainer');
+?>
+
+<!DOCTYPE html>
+<html lang="ru" class="domain-<?=$this->domainId()?>">
+	<head>
+		<?= $this->render($variables, 'layout/head') ?>
+        <script>
+            window.domainId = <?=$this->domainId()?>;
+        </script>
+	</head>
+
+	<body>
+        <?= $settingsContainer->getValue('body_counter'); ?>
+		<div class="wrap">
+            <? $auth = permissionsCollection::getInstance()->isAuth() ? 'auth' : "no_auth"; ?>
+            <?= $this->renderCache($variables,'layout/header/index','header_index_'.$auth) ?>
+			<!-- Основная часть -->
+			<? if ($this->isHomePage($variables)): ?>
+                <?= $this->renderCache($variables,'content/home/index','home_index') ?>
+			<? else: ?>
+			
+
+                <div class="cont">
+                    <section class="page_content">
+					
+					<a href="#" onclick="javascript:history.back(-2); return false;" style="float:left; margin-right:10px;      font: 14px ProximaNova;   color: #7d7d7d;
+    text-decoration: none;">< &nbsp;Назад&nbsp; | </a>
+                        <? $mode = ($variables['method'] === 'purchasing_one_step') ? "purchasing_one_step" : false ?>
+
+                        <?php
+                        $getBreadCrumbs = $this->macros('content', 'getBreadCrumbs');
+                        $getBreadCrumbs['header'] = $variables['header'];
+                        ?>
+                        <?= $this->render($getBreadCrumbs, 'content/getBreadCrumbs') ?>
+                        <div class="cont">
+                            <? $h1 = isset($variables['page']) ? $variables['page']->getValue('h1') : $variables['header'] ?>
+							<?php $seo_h1 = $this->macros('seo','getSeoFiltersData',array('h1'));  ?>
+							<?php if($seo_h1 != '') $h1 = $seo_h1; ?>
+                            <? if($variables['method'] != 'object'): ?>
+                                <h1 class="page_title"><?= $h1 ?></h1>
+                            <? endif; ?>
+                            <?php if (($variables['module'] === 'catalog')): ?>
+                                <?= $this->render($variables, 'layout/main') ?>
+                            <?php elseif($variables['method'] == 'cart' || ($pageId == 1093)): ?>
+                                <section class="content_text">
+                                        <?= $this->render($variables, 'layout/main') ?>
+                                </section>
+                            <?php else: ?>
+                                <section class="content_text">
+                                    <div class="text_block">
+                                        <?= $this->render($variables, 'layout/main') ?>
+                                    </div>
+                                </section>
+                            <?php endif; ?>
+                        </div>
+                        <? if($mode == "purchasing_one_step"): ?>
+                            <?= $this->render($variables, 'layout/main') ?>
+                        <? endif; ?>
+
+                    </section>
+
+                </div>
+
+            <? endif; ?>
+
+			<!-- End Основная часть -->
+            <?= $this->renderCache($variables,'layout/footer/index','footer_index') ?>
+		</div>
+		<div class="buttonUp">
+			<a href="#top"></a>
+		</div>
+
+
+
+
+		<div class="modal" id="success_modal">
+            <div class="block_title"><div><?= $this->translate('thanks') ?></div></div>
+			<div class="text"><?= $this->translate('manager_will_concact') ?></div>
+		</div>
+
+        <div class="buttonUp">
+            <a href="#top"></a>
+        </div>
+
+
+        <div class="modal" id="feedback_modal">
+            <div class="block_title"><div><?= $this->translate('have_quest') ?></div></div>
+            <?= $this->renderCache($this->macros('webforms','add',[192]),'webforms/callback','webforms_add_192'); ?>
+        </div>
+
+        <div class="modal" id="login_modal">
+            <div class="block_title"><div><?= $this->translate('login_in_account') ?></div></div>
+
+
+            <div class="modal_data">
+                <form autocomplete="off" class="form auth_do" action="/users/auth_do" >
+                    <div class="line">
+                        <div class="name">E-mail *</div>
+                        <div class="field">
+                            <input type="email" name="name" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="name"><?= $this->translate('password') ?> *</div>
+                        <div class="field">
+                            <input type="password" name="password" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="line error_msg"></div>
+
+                    <div class="line">
+                        <a href="#recovery_modal" class="recovery_link modal_link "><?= $this->translate('forget_password') ?></a>
+                    </div>
+
+                    <div class="line">
+                        <div class="submit">
+                            <div class="">
+                                    <button type="submit" class="submit_btn"><?= $this->translate('entry') ?></button>
+                            </div>
+                            <br/>
+                            <div class="">
+                                <a href="#register_modal" class="modal_link submit_btn"><?= $this->translate('registration') ?></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+        <div class="modal" id="recovery_modal">
+            <div class="block_title"><?= $this->translate('forget_password') ?></div>
+
+            <div class="text"><?= $this->translate('forget_mail') ?></div>
+
+            <div class="modal_data">
+                <form autocomplete="off" class="form forget_do" action="/users/forget_do">
+                    <div class="line">
+                        <div class="name">E-mail <span class="required">*</span></div>
+
+                        <div class="field">
+                            <input type="email" name="forget_email" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line error_msg"></div>
+
+                    <div class="submit">
+                        <button type="submit" class="submit_btn"><?= $this->translate('send_password') ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal" id="forgot_form_success">
+                <div class="block_title"><?= $this->translate('forget_password') ?></div>
+
+                <div class="text">
+                    <p><?= $this->translate('forget_instruction') ?></p>
+                </div>
+        </div>
+
+        <div class="modal" id="register_form_success">
+            <div class="block_title"><?= $this->translate('registration') ?></div>
+
+
+                <div class="text">
+                    <p><?= $this->translate('register_instruction') ?></p>
+                </div>
+
+
+
+        </div>
+
+        <div class="modal" id="register_modal">
+            <div class="block_title"><div><?= $this->translate('registration') ?></div></div>
+
+            <div class="modal_data">
+                <form autocomplete="off" class="form reg_do" action="/users/reg_do">
+                    <div class="line">
+                        <div class="name"><?= $this->translate('you_name') ?> <span class="required">*</span></div>
+
+                        <div class="field">
+                            <input type="text" name="data[new][fname]" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="name">E-mail <span class="required">*</span></div>
+
+                        <div class="field">
+                            <input type="email" name="email" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="name"><?= $this->translate('mobile_phone') ?></div>
+
+                        <div class="field">
+                            <input type="tel" name="data[new][phone]" value="" class="input" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="name"><?= $this->translate('password') ?> <span class="required">*</span></div>
+
+                        <div class="field">
+                            <input type="password" name="password" value="" class="input required" autocomplete="off"/>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <input type="checkbox" name="agree_personal" id="agree_personal" class="required" checked/>
+                        <label for="agree_personal"><?= $this->translate('i_confirm') ?></label>
+                    </div>
+
+
+                    <div class="line">
+                        <div class="exp"><span class="required">*</span> <?= $this->translate('required_fields') ?></div>
+                    </div>
+
+                    <div class="line error_msg">
+                        <div class="field"></div>
+                    </div>
+
+
+
+                    <div class="submit">
+                        <button type="submit" class="submit_btn"><?= $this->translate('do_registration') ?></button>
+                        <div class="line">
+                            <p><?= $this->translate('else') ?></p>
+                            <a href="#login_modal" class="modal_link submit_btn"><?= $this->translate('entry') ?></a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="register_form_success">
+            <div class="block_title"><div><?= $this->translate('registration') ?></div></div>
+
+            <form autocomplete="off" class="form forget_do" action="/users/forget_do">
+                <div class="line">
+                    <p><?= $this->translate('register_instruction') ?></p>
+                </div>
+
+
+            </form>
+        </div>
+
+
+        <div class="modal" id="success_modal">
+            <div class="block_title"><div><?= $this->translate('thanks') ?></div></div>
+
+            <div class="text"><?= $this->translate('manager_will_concact') ?></div>
+        </div>
+
+
+        <!-- Подключение javascript файлов -->
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/jquery-migrate-1.4.1.min.js"></script>
+        <script src="js/fancybox.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/maskedinput.min.js"></script>
+        <script src="js/nice-select.min.js"></script>
+        <script src="js/ion.rangeSlider.min.js"></script>
+        <script src="js/elevatezoom.min.js"></script>
+        <script src="js/scripts.min.js"></script>
+
+        <script src="js/custom.min.js"></script>
+
+        <script> var site = []; </script>
+        <script src="js/basket_client.min.js"></script>
+        <script src="js/basket_custom.min.js"></script>
+        <script src="js/ceo.js"></script>
+        <!-- Скрипт под цену доставки -->
+        <script src="js/delivery.js"></script>
+
+        <? if($page): ?>
+            <? if($page->id == 1093): ?>
+                <script src="js/sly.plugins.js"></script>
+                <script src="js/sly.min.js"></script>
+                <script src="js/compare.js"></script>
+            <? endif; ?>
+
+        <? endif; ?>
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript" >
+            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            ym(49048229, "init", {
+                id:49048229,
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true,
+                ecommerce:"dataLayer"
+            });
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/49048229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+        <!-- BEGIN JIVOSITE CODE {literal} -->
+        <script>
+        (function(w,d,u){
+               var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+               var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://cdn.bitrix24.ru/b9176187/crm/site_button/loader_2_xo1eas.js');
+        </script>
+        <!-- {/literal} END JIVOSITE CODE -->
+	</body>
+</html>

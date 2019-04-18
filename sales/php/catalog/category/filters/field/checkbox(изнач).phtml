@@ -1,0 +1,34 @@
+<?php
+/**
+ * Поле умных фильтров, которое нужно вывести с чекбоксом.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$fieldTitle = $this->getFilterFieldAttribute($variables, 'title');
+$fieldName = $this->getFilterFieldAttribute($variables, 'name');
+$optionList = isset($variables['item']) ? $variables['item'] : [];
+$active = "";
+$display = "";
+if(isset($variables['i'])){
+	if($variables['i'] < 5){
+		$active = "active";
+		$display = 'style="display: block;"';
+	}
+
+}
+
+?>
+
+<div class="item">
+	<div class="name <?= $active ?>"><?= $fieldTitle ?></div>
+
+	<div class="data" <?= $display ?>>
+
+		<?php foreach ($optionList as $index => $option): ?>
+			<?= $this->render([$fieldName, $index, $option], 'catalog/category/filters/field/checkbox/option') ?>
+		<?php endforeach; ?>
+
+	</div>
+</div>

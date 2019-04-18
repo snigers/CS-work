@@ -1,0 +1,16 @@
+<?php
+/**
+ * Выбор адреса доставки.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+if (!isset($variables['onestep']['delivery'])) {
+	return;
+}
+
+$variables = $variables['onestep']['delivery'];
+?>
+
+<?= $this->render($variables, 'emarket/delivery/address/block') ?>

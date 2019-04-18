@@ -1,0 +1,39 @@
+<?php
+/**
+ * Блок с дополнительными действиями в превью товара:
+ *   - Статус наличия товара
+ *   - Ссылка "Добавить к сравнению"
+ *   - Ссылка на комментарии товара
+ *   - Кнопка "купить в один клик"
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var iUmiHierarchyElement $variables
+ */
+
+$product = $variables;
+?>
+
+<div class="hide_block hidden-xs hidden-sm">
+	<div>
+		<span class="gray_text">
+			<?= $this->render($product, 'catalog/product/preview/stock_status') ?>
+		</span>
+
+		<a href="<?= $this->getProductComparisonLink($product) ?>" class="gray_text">
+			<?= $this->getComparisonMessage($product) ?>
+		</a>
+
+		<a href="<?= $this->getCommentLink($product) ?>" class="gray_text comment_count nowrap">
+			<img src="img/comment.png" alt="comment" />
+			<?= $this->getCommentCount($product) ?>
+		</a>
+	</div>
+
+	<a class="buy_one_click_button transparent_btn one_click_btn <?= $this->getBuyButtonClass($product) ?>">
+		<?= $this->translate('purchase_one_click') ?>
+	</a>
+</div>
+
+<a class="buy_one_click_button transparent_btn goods_btn one_click_adaptive <?= $this->getBuyButtonClass($product) ?>">
+	<?= $this->translate('purchase_one_click') ?>
+</a>

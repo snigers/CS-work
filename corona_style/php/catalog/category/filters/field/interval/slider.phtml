@@ -1,0 +1,27 @@
+<?php
+/**
+ * Поле умных фильтров, которое нужно вывести со слайдером.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$data = $this->getSliderFilterFieldData($variables);
+?>
+
+<div class="item">
+	<div class="name active"><?= $data['title'] ?></div>
+	<div class="data" style="display: block;">
+		<div class="data price" style="display: block;">
+			<div class="line">
+				<input type="text" name="<?= $data['name_from'] ?>[ot]" value="<?= $data['selected_min'] ?>" data-minimum="<?= $data['min'] ?>" class="input ot">
+				<span class="sep"></span>
+				<input type="text" name="<?= $data['name_to'] ?>[do]" value="<?= $data['selected_max'] ?>" data-maximum="<?= $data['max'] ?>" class="input do">
+			</div>
+
+			<input type="text" id="price_range" name="price_range" value="">
+			<input type="hidden" name="<?= $data['name_from'] ?>" value="<?= $data['selected_min'] ?>" data-minimum="<?= $data['min'] ?>" id="from"/>
+			<input type="hidden" name="<?= $data['name_to'] ?>" value="<?= $data['selected_max'] ?>" data-maximum="<?= $data['max'] ?>" id="to"/>
+        </div>
+	</div>
+</div>

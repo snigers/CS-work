@@ -1,0 +1,35 @@
+<?php
+/**
+ * Каталог товаров на главной странице. Включает в себя две вкладки:
+ *   - Новинки
+ *   - Лучшие предложения
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<div class="goods w100p">
+	<div class="container">
+		<div class="row">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#newItems" data-toggle="tab" class="up">
+						<?= $this->translate('new_items') ?>
+					</a>
+				</li>
+
+				<li>
+					<a href="#bestItems" data-toggle="tab" class="up">
+						<?= $this->translate('sales') ?>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="tab-content">
+			<?= $this->render($variables, 'content/home/catalog/new_items') ?>
+			<?= $this->render($variables, 'content/home/catalog/sales') ?>
+		</div>
+	</div>
+</div>

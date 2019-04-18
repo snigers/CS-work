@@ -1,0 +1,22 @@
+<?php
+/**
+ * Страница отписки от рассылки.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$unsubscribe = $this->macros('dispatches', 'unsubscribe');
+?>
+
+<div class="section_capt">
+	<div class="container">
+		<div class="row">
+			<h1><?= $variables['header'] ?></h1>
+		</div>
+	</div>
+</div>
+
+<div class="container grey_border">
+	<p><?= $unsubscribe ?></p>
+</div>

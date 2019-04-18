@@ -1,0 +1,18 @@
+<?php
+/**
+ * Корзина товаров.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+
+	<?php if ($this->isCartEmpty($variables)): ?>
+        <section class="cart_info">
+			<p class="empty"><?= $this->translate('empty_cart') ?></p>
+        </section>
+	<?php else: ?>
+		<?= $this->render($variables, 'emarket/cart/populated') ?>
+	<?php endif; ?>
+

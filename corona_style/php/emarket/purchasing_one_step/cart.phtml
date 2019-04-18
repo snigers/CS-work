@@ -1,0 +1,24 @@
+<?php
+/**
+ * Статический блок с товарами в корзине (не поддерживается изменение содержимого корзины).
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$cart = $this->macros('emarket', 'cart');
+$cart['drawFormButton'] = true;
+?>
+
+<div class="cart onestep">
+	<div class="container">
+		<div class="row table_title background_gray">
+			<h2><?= $this->translate('cart_reminder') ?></h2>
+		</div>
+
+		<?= $this->render($cart, 'emarket/cart/table_title') ?>
+		<?= $this->render($cart, 'emarket/cart/product_list') ?>
+	</div>
+
+	<?= $this->render($cart, 'emarket/cart/result') ?>
+</div>

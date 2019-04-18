@@ -1,0 +1,29 @@
+<?php /** @var umiTemplaterPHP $this */ ?>
+<?php /** @var array $variables */ ?>
+
+<?php if(count($variables) == 2 and isset($variables[0])) {
+    $oldPrice = $variables[1];
+    $variables = $variables[0];
+} ?>
+
+<?=
+    isset($variables['price']['prefix']) ?
+        $variables['price']['prefix'] : null
+?>
+
+<?php
+
+    if(isset($oldPrice)) {
+        echo $oldPrice;
+    } else if (isset($variables['price']['actual'])){
+        echo $variables['price']['actual'];
+    } else {
+		echo '0';
+	}
+
+?>
+
+<?=
+    isset($variables['price']['suffix']) ?
+        $variables['price']['suffix'] : null
+?>

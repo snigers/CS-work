@@ -1,0 +1,269 @@
+<?php
+/**
+ * Оформление заказа в один шаг:
+ *   - Личная информация о покупателе (только если он неавторизован)
+ *   - Выбор адреса доставки
+ *   - Выбор способа доставки
+ *   - Выбор способа оплаты
+ *   - Статический блок с товарами в корзине
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$variables = $this->macros('emarket', 'purchasing_one_step');
+$emarket = cmsController::getInstance()->getModule('emarket');
+$order = $emarket->getBasketOrder(false);
+?>
+
+<section class="checkout_info">
+	<form action="/emarket/saveInfoCustom" class="form" id="saveInfoCustom" enctype="multipart/form-data" method="POST">
+		<div class="block">
+			<div class="data">
+				<div class="cont">
+					<div class="title">1. Данные покупателя</div>
+
+					<div class="exp">* — поля, обязательные для заполнения</div>
+
+					<div class="lines">
+                            <?php
+                                    $form_data = $this->macros('data', 'getEditForm', [$this->macros('emarket', 'getCustomerId'),'','',true]);
+                                    if(permissionsCollection::getInstance()->isAuth()){
+                                        $group_names = array("short_info","contact_props","personal_info");
+                                        $fields = array();
+                                        foreach($form_data['group'] as $group){
+                                            if(array_search($group['name'],$group_names) !== false){
+                                                $fields = array_merge($fields,$group['fields']);
+                                                //continue(1);
+                                            }
+                                        }
+                                        foreach($fields as $i => $field){
+                                            ?>
+                                                    <div class="line">
+                                                        <div class="name"><?= $field['title'] ?><?= (isset($field['required']) ? ' * ' : '') ?></div>
+                                                        <div class="field">
+                                                            <?= $this->render($field, "data/form_field/{$field['type']}") ?>
+                                                        </div>
+                                                    </div>
+                                            <?php
+                                        }
+                                    }
+                                    else{
+
+
+                                        $fields = array("fname","lname","father_name","email","phone");
+
+                                        foreach($form_data['group'] as $group){
+                                            foreach($group['fields'] as $field){
+                                                if(array_search($field['name'],$fields) !== false){
+                                                    ?>
+                                                            <div class="line">
+                                                                <div class="name"><?= $field['title'] ?><?= (isset($field['required']) ? ' * ' : '') ?></div>
+                                                                <div class="field">
+                                                                    <?= $this->render($field, "data/form_field/{$field['type']}") ?>
+                                                                </div>
+                                                            </div>
+                                                    <?php
+                                                }
+
+                                            }
+                                        }
+                                    }
+                            ?>
+
+					</div>
+					<div class="lines">
+
+						<div class="line">
+							<div class="name">Прикрепить карточку организации</div>
+
+							<div class="field">
+								<input type="file" name="data[<?= $order->id	 ?>][card]" id="checkout_file">
+								<label for="checkout_file">Прикрепить файл</label>
+							</div>
+						</div>
+
+
+
+						<div class="line">
+							<div class="field">
+								<input type="checkbox" name="checkout_agree" id="checkout_agree_check" class="required">
+								<label for="checkout_agree_check">Я даю свое согласие на обработку и хранение персональных данных</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="block">
+			<div class="title">2. Доставка</div>
+
+			<div class="tabs_container">
+					<div class="cont">
+						<ul class="tabs">
+								<? foreach($variables['onestep']['delivery_choose'] as $i=>$item): ?>
+									<? $active = ($i == 0) ? 'class="active"' : ''; ?>
+									<? $checked = ($i == 0) ? 'checked' : ''; ?>
+									<li <?= $active ?> data-href="#chekout_tab<?= $item['id'] ?>">
+										<label for="delivery-id_<?= $item['id'] ?>">
+													<span><?= $item['name'] ?></span>
+
+										</label>
+										<input type="radio" name="delivery-id" value="<?= $item['id'] ?>" <?= $checked ?> id="delivery-id_<?= $item['id'] ?>"/>
+
+									</li>
+								<? endforeach; ?>
+						</ul>
+					</div>
+					<? foreach($variables['onestep']['delivery_choose'] as $i=>$item): ?>
+						<? if($item['type-class-name'] == 'courier'): ?>
+							<div class="tab_content data" id="chekout_tab<?= $item['id'] ?>">
+								<div class="cont">
+									<?php
+										$form_data = $this->macros('data', 'getCreateForm', [37]);
+										$fields = $form_data['groups'][0]['fields'];
+									?>
+									<div class="lines">
+										<?php
+											$field_name = 'index';
+											foreach($fields as $i => $field){
+												if($field['name'] == $field_name){
+														echo $this->render($field, "data/field");
+														continue(1);
+												}
+											}
+										?>
+									</div>
+
+
+									<div class="lines">
+										<?php
+											$field_name = 'street';
+											foreach($fields as $i => $field){
+												if($field['name'] == $field_name){
+														echo $this->render($field, "data/field");
+														continue(1);
+												}
+											}
+										?>
+									</div>
+
+
+									<div class="lines">
+										<div class="line">
+											<div class="lines">
+												<?php
+													$field_name = 'house';
+													foreach($fields as $i => $field){
+														if($field['name'] == $field_name){
+																echo $this->render($field, "data/field");
+																continue(1);
+														}
+													}
+												?>
+
+
+												<?php
+													$field_name = 'korpus';
+													foreach($fields as $i => $field){
+														if($field['name'] == $field_name){
+																echo $this->render($field, "data/field");
+																continue(1);
+														}
+													}
+												?>
+
+												<?php
+													$field_name = 'stroenie';
+													foreach($fields as $i => $field){
+														if($field['name'] == $field_name){
+															$field['class'] = 'middle';
+																echo $this->render($field, "data/field");
+																continue(1);
+														}
+													}
+												?>
+												<?php
+													$field_name = 'flat';
+													foreach($fields as $i => $field){
+														if($field['name'] == $field_name){
+															$field['class'] = 'middle';
+																echo $this->render($field, "data/field");
+																continue(1);
+														}
+													}
+												?>
+
+											</div>
+										</div>
+									</div>
+
+
+									<div class="lines">
+										<?php
+											$field_name = 'order_comments';
+											foreach($fields as $i => $field){
+												if($field['name'] == $field_name){
+														echo $this->render($field, "data/field");
+														continue(1);
+												}
+											}
+										?>
+									</div>
+								</div>
+							</div>
+						<? else: ?>
+							<div class="tab_content data" id="chekout_tab<?= $item['id'] ?>">
+								<div class="cont">
+									<div class="contacts_info">
+										<? $object = $this->getObjectById($item['id']) ?>
+										<div class="item">
+											<div class="name">Адрес:</div>
+
+											<div class="adres"><?= $object->adres ?></div>
+										</div>
+
+
+										<div class="item">
+											<div class="name">Телефон:</div>
+
+											<div class="phones">
+												<div class="vider"><?= $object->telefon ?></div>
+											</div>
+										</div>
+
+
+										<div class="item">
+											<div class="name">Режим работы:</div>
+
+											<div class="time"><?= $object->rezhim_raboty ?></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<? endif; ?>
+					<? endforeach; ?>
+			</div>
+		</div>
+
+
+		<div class="cont">
+			<div class="checkout_total">
+				<div class="public_offer">
+					Нажимая на кнопку "Заказ подтверждаю",<br> вы принимаете условия <a href="<?= $this->getPageById(494)->link ?>" target="_blank">Публичной оферты</a>
+				</div>
+
+
+				<div class="total">
+					<div class="total_price">Стоимость покупок: <b><label class="cart_all_summary">0</label> <span class="currency">1</span></b></div>
+
+					<button type="submit" class="submit_btn">Заказ подтверждаю</button>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" name="payment-id" value="1139"/>
+		<input type="hidden" name="delivery-address" value="new"/>
+	</form>
+</section>

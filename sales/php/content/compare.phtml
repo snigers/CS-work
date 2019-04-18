@@ -1,0 +1,77 @@
+<?php
+
+$getAllProductsCompare = $this->macros('emarket','getAllProductsCompare');
+?>
+<section class="compare_info">
+    <? if(!isset($getAllProductsCompare['headers'])): ?>
+        <p class="empty">Товаров для сравнения нет.</p>
+    <? else: ?>
+        <aside class="left">
+            <div class="compare_filter">
+                <form action="" class="form">
+                    <div class="item">
+                        <div class="name">Показывать в таблице</div>
+
+                        <div class="data">
+                            <div class="line">
+                                <input type="radio" name="compare_settings" value="all" id="compare_filter_radio1" checked="">
+                                <label for="compare_filter_radio1">Все параметры</label>
+                            </div>
+
+                            <div class="line">
+                                <input type="radio" name="compare_settings" value="diff" id="compare_filter_radio2">
+                                <label for="compare_filter_radio2">Различающиеся</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+
+        <section class="compare_features">
+            <div class="title">Характеристики</div>
+
+            <ul>
+                <? foreach($getAllProductsCompare['fields'] as $field): ?>
+                    <li><div class="box"><?= $field['title'] ?></div></li>
+                <? endforeach; ?>
+            </ul>
+        </section>
+
+
+        <section class="compare_carousel content right">
+            <div class="compare_wrap">
+                <ul class="carousel products">
+
+                    <? foreach($getAllProductsCompare['headers'] as $i=>$item): ?>
+
+                        <li>
+
+                            <?= $item['product']['html'] ?>
+
+                            <div class="features">
+                                <ul>
+                                    <? foreach($getAllProductsCompare['fields'] as $j=>$field): ?>
+                                        <li data-column="<?= $field['title'] ?>">
+                                            <div class="box"><?= $field['values'][$i]['data']['value'] ?></div>
+                                        </li>
+                                    <? endforeach; ?>
+                                </ul>
+                            </div>
+                        </li>
+                    <? endforeach; ?>
+
+                </ul>
+            </div>
+
+            <div class="scrollbar">
+                <div class="handle">
+                    <div class="mousearea"></div>
+                </div>
+            </div>
+        </section>
+    <? endif; ?>
+
+    <div class="clear"></div>
+</section>

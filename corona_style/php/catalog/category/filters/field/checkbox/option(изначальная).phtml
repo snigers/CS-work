@@ -1,0 +1,17 @@
+<?php
+/**
+ * Опция поля умных фильтров, которое нужно вывести с чекбоксом.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$data = $this->getCheckboxFilterFieldData($variables);
+
+$checked = $data['is-selected'] ? "checked" : "";
+?>
+
+<div class="line">
+	<input type="checkbox" name="<?= $data['name'] ?>" id="field_<?= $data['id'] ?>" value="<?= $data['value'] ?>" <?= $checked  ?>>
+	<label for="field_<?= $data['id'] ?>"><?= $data['value'] ?></label>
+</div>

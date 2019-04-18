@@ -1,0 +1,33 @@
+<?php
+/**
+ * Список категорий второго уровня в карте сайта.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $categoryList
+ */
+
+$parentCategory = $variables;
+$data = $this->getChildCategories($parentCategory);
+$categoryList = $data['items'];
+?>
+
+<ul
+	umi:element-id="<?= $data['category_id'] ?>"
+	umi:region="list"
+	umi:module="catalog"
+	umi:sortable="sortable"
+	umi:add-method="none"
+>
+	<?php foreach ($categoryList as $child): ?>
+		<li umi:element-id="<?= $child['id'] ?>" umi:region="row">
+			<a href="<?= $child['link'] ?>"
+			   umi:field-name="name"
+			   umi:delete="delete"
+			   umi:empty="<?= $this->translate('empty_section_name') ?>"
+			>
+				<?= $child['text'] ?>
+			</a>
+		</li>
+	<?php endforeach; ?>
+</ul>

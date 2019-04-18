@@ -1,0 +1,227 @@
+<?php
+/**
+ * Подвал сайта.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$settingsContainer = $this->getCommonVar('settingsContainer');
+$getCategoryMenuNew = $this->getCommonVar('getCategoryMenuNew');
+
+
+$info_menu = ($this->getCommonVar('lang_id') == 1)  ? 'info' : 'info_eng';
+$info_menu.='_'.$this->getCommonVar('domain-id');
+$about_menu = ($this->getCommonVar('lang_id') == 1)  ? 'about' : 'about_eng';
+$about_menu.='_'.$this->getCommonVar('domain-id');
+
+$footer_catalog = ($this->getCommonVar('lang_id') == 1)  ? 'footer_catalog_ru_' : 'footer_catalog_eng_';
+$footer_catalog.=$this->getCommonVar('domain-id');
+
+
+
+
+
+
+?>
+<!-- Подвал -->
+<footer>
+    <div class="top">
+        <div class="cont">
+            <div class="phone">
+			
+			<div class="title">Нужна помощь c заказом?</div>
+			
+			<?= $settingsContainer->getValue('phone') ?>
+			
+		
+			<br>
+			
+               <!-- <div class="email">
+                    <a href="mailto:<?= $settingsContainer->getValue('mail') ?>" style="margin-top: 20px;"><?= $settingsContainer->getValue('mail') ?></a>
+                </div> -->
+				<div class="email">
+               <a href="https://api.whatsapp.com/send?phone=79661966577" target="_blank" style="color:white;">Написать в WhatsApp</a>
+				</div>
+	
+			
+			
+			
+			</div>
+			<div class="subscribe">
+                <!--< div class="title"><? /* = $this->translate('subscribes') */  ?></div> -->
+
+                <!-- <form action="/dispatches/subscribe_doCustom" class="subscribe_doCustom">
+                    <input type="email" name="sbs_mail" value="" class="input left required" placeholder="<?= $this->translate('your_mail') ?>" /> -->
+                    <!-- Добавил связку с Битрикс24 bx24_form_button -->
+                   <!--  <div class="clear"></div>
+                </form> -->
+                <button class="b24-web-form-popup-btn-10 submit_btn">Подписаться на новинки</button>
+
+                <!-- <div class="success"><?/*= $this->translate('subscribe_success') */ ?></div> -->
+				
+				
+				<!-- <div class="condition_text">
+				<br>
+<input type="checkbox" checked="checked" id="fields42" name="fields42">
+<label for="fields42" style="color: white;">Даю согласие на <a  style="color: white;" href="https://coronastyle.ru/usloviya-podpiski/" target="_blank">условия подписки</a></label>
+</div> -->
+				
+            </div>
+
+
+           
+
+
+            
+        </div>
+    </div>
+
+
+    <div class="info">
+        <div class="cont">
+            <div class="col left">
+                <div class="logo">
+                    <?
+                    if($logo = $settingsContainer->logo_footer){
+                        $logo = $logo->getFilePath(true);
+                    }else{
+                        $logo = 'images/logo2.png';
+                    }
+                    ?>
+                    <img src="<?= $logo ?>" alt="" />
+                </div>
+
+               
+            </div>
+
+
+			     <div class="links">
+                <div class="title"><?= $this->translate('about') ?></div>
+
+                <ul>
+                    <? $menu = $this->macrosCache("menu","draw",[$about_menu],"about"); ?>
+                    <?= $this->renderCache($menu,'menu/li_a_href','about'); ?>
+                </ul>
+            </div>
+			
+			
+			 <div class="links">
+                <div class="title"><?= $this->translate('helpful_information') ?></div>
+
+                <ul>
+                    <? $menu = $this->macrosCache("menu","draw",[$info_menu],"info"); ?>
+                    <?= $this->renderCache($menu,'menu/li_a_href','info'); ?>
+                </ul>
+            </div>
+			
+            <div class="links">
+                <div class="title"><?= $this->translate('catalog') ?></div>
+
+                <ul>
+                    <? $menu = $this->macrosCache("menu","draw",[$footer_catalog],"footer_category"); ?>
+                    <?= $this->renderCache($menu,'menu/li_a_href','footer_category'); ?>
+
+                </ul>
+            </div>
+
+
+           
+
+
+       
+
+			            <div class="links">
+                <div class="title">Шоурум</div>
+
+                <ul>
+                                        
+    <li><a href="/shourum/">
+г. Москва, м. Текстильщики <br>ул. 8-ая Текстильщиков, 8<br>
+<span>
+<br>
+Ежедневно с 9:00 до 21:30
+
+</span>
+</a></li>
+  
+    <li><br>
+	<a href="/kontakty/">Как проехать</a></li>
+
+                </ul>
+            </div>
+			
+
+            <div class="contacts">
+                
+
+
+
+
+				<p aligen="center" style="font-size:16px; text-align:center; padding-bottom:10px; margin-top:-10px;"><strong>мы в социальных сетях</strong></p>
+				 <div class="socials">
+                <?
+                $socials = array('vk','ig','fb','tw','yt');
+                ?>
+                <? foreach($socials as $i=>$social): ?>
+                    <? $value = $settingsContainer->getValue($social); ?>
+                    <? if($value): ?>
+                        <a href="<?= $value ?>" target="_blank" rel="noopener">
+                            <img src="images/ic_soc<?= ++$i ?>.png" alt="<?= $social ?>">
+                        </a>
+                    <? endif; ?>
+                <? endforeach; ?>
+
+
+				<p aligen="center" style="font-size:16px; text-align:center; padding-bottom:10px; margin-top:10px;"><strong>мы принимаем</strong></p>
+				
+				
+				<div class="socials">
+                                                                                               
+                            <img src="images/visa-icon.jpg" alt="visa" height="21">
+                                                                                            
+				  <img src="images/mestro-icon.jpg" alt="visa" height="21">
+				  
+				    <img src="images/master-icon.jpg" alt="visa" height="21">
+					
+					 <img src="images/mir-icon.jpg" alt="visa" height="21">
+				
+            </div>
+				
+				
+				
+				
+				
+				
+            </div>
+                <button class="b24-web-form-popup-btn-12 feedback_link"><img src="images/ic_feedback_link.png" alt="" /><?= $this->translate('have_quest') ?></button>
+				
+
+            </div>
+        </div>
+
+
+<div class="info" style="padding-top:25px;  padding-right:15px; margin-bottom:0px; background-color: #f4f4f4;">
+        <div class="cont">
+		
+		<p aligen="right" style="text-align:right; ">
+		
+		 <a style="color:#ccc; float:right;" href="<?= $this->getCommonVar('politics_page') ?> " class="privacy_policy"><?= $this->translate('politics') ?></a>
+		</p>
+		
+		
+		</div>
+		</div>
+
+
+
+		</div>
+	
+	
+	
+	
+	
+	
+</footer>
+
+<!-- End Подвал -->
+

@@ -1,0 +1,77 @@
+<?php
+/**
+ * Содержимое html-тега <head>.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$settingsContainer = $this->getCommonVar('settingsContainer');
+?>
+<?= $settingsContainer->getValue('head_counter'); ?>
+<?$basketCustom = $this->macros('emarket','basketCustom');?>
+
+<base href="<?= $this->getResourceDirectory() ?>">
+<title><?= $variables['title'] ?></title>
+
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<!-- Адаптирование страницы для мобильных устройств -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<!-- Запрет распознования номера телефона -->
+<meta name="format-detection" content="telephone=no" />
+<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+
+<!-- open graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://coronastyle.ru/" />
+<meta property="og:title" content="<?= $variables['title'] ?>" />
+<meta property="og:description" content="<?= $variables['meta']['description'] ?>" />
+<meta property="og:image" content="http://www.coronastyle.ru/images/corona/article_thumb1.jpg" />
+<meta name="description" content="<?= $variables['meta']['description'] ?> <?= $variables['meta']['keywords'] ?>">
+<meta name="keywords" content="">
+<meta name="author" content="">
+
+
+
+<?
+$arTmp = explode('/',$variables['request-uri']);
+$hide_can = 0;
+foreach($arTmp as $item) 
+	if ($item == 'qq-to-be-blossom' || $item == 'qq-to-be-blossom1') $hide_can = 1;
+?>
+
+<?if ($hide_can == 1) { ?>
+	<meta name="robots" content="none"/>
+<? } else { ?>
+	<?= $this->getCanonicalLinkTag($variables) ?>
+<? } ?>
+
+
+<? if ($variables['lang'] == 'en') { ?>
+	<meta name="robots" content="none"/>
+<? } ?>
+
+<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+<?switch($this->getCommonVar('domain-id')){
+    case 1: $fav_path = "images/favicon.ico"; break;
+    case 2: $fav_path = "images/16k/favicon.ico"; break;
+}?>
+
+<link rel="shortcut icon" href="<?=$fav_path?>" />
+<!-- Изменение фавикона -->
+<script src="js/tinycon.min.js"></script>
+<? if (isset($basketCustom['summary']['price']['actual']) AND ($basketCustom['summary']['price']['actual'] > "0"))
+	echo '<script> (function() { var count = null; setInterval(function() { if (this.active_tab_browser) {count = "!"; Tinycon.setBubble(count);}  }, 1000); })(); </script>';
+ ?>
+<!-- Подключение файлов стилей -->
+<link rel="stylesheet" href="css/fancybox.min.css"/>
+<link rel="stylesheet" href="css/owl.carousel.min.css" />
+<link rel="stylesheet" href="css/ion.rangeSlider.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/custom.css" />
+
+<link rel="stylesheet" href="css/response_1269.min.css" media="(max-width: 1269px)" />
+<link rel="stylesheet" href="css/response_1023.min.css" media="(max-width: 1023px)" />
+<link rel="stylesheet" href="css/response_767.min.css" media="(max-width: 767px)" />
+<link rel="stylesheet" href="css/response_479.min.css" media="(max-width: 479px)" />
+

@@ -1,0 +1,38 @@
+<?php
+/**
+ * Превью новости в ленте.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var iUmiHierarchyElement $newsItem
+ */
+
+$newsItem = $this->getPageById($variables['id']);
+?>
+
+<div class="news_box" umi:element-id="<?= $variables['id'] ?>" umi:region="row">
+	<div class="news_date">
+		<div><?= $this->getPublishDay($newsItem) ?></div>
+
+		<div>
+			<p><?= $this->getPublishMonth($newsItem) ?></p>
+			<p><?= $this->getPublishYear($newsItem) ?></p>
+		</div>
+	</div>
+
+	<div class="news_text">
+		<a href="<?= $variables['link'] ?>">
+			<h4 umi:field-name="name" umi:delete="delete" umi:empty="<?= $this->translate('empty_page_name') ?>">
+				<?= $variables['header'] ?>
+			</h4>
+		</a>
+
+		<div umi:field-name="anons" umi:empty="<?= $this->translate('empty_page_anons') ?>">
+			<?= $newsItem->getValue('anons') ?>
+		</div>
+
+		<a href="<?= $variables['link'] ?>">
+			<img src="img/blue_arrow.png" alt="blue_arrow">
+		</a>
+	</div>
+</div>

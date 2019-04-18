@@ -1,0 +1,13 @@
+<?php
+/**
+ * Оформление заказа по шагам.
+ * В зависимости от текущего шага выбирает нужный шаблон для дальнейшего вывода.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$purchase = $this->macros('emarket', 'purchase');
+?>
+
+<?= $this->render($purchase, $this->getPurchaseTemplate($purchase)) ?>

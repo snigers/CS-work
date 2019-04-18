@@ -1,0 +1,34 @@
+<?php
+/**
+ * Форма опроса.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+?>
+
+<div class="interview col-md-6">
+	<h3 class="block_capt up">
+		<?= $this->translate('vote') ?>
+	</h3>
+
+	<div class="radio_form">
+		<p class="form_text">
+			<?= $variables['text'] ?>
+		</p>
+
+		<form action="<?= $this->getVoteFormAction() ?>" method="post">
+			<?php foreach ($variables['items'] as $index => $item): ?>
+				<div>
+					<label>
+						<input type="radio" name="vote_answer" required id="var_<?= $index ?>" value="<?= $item['id'] ?>" />
+						<span></span>
+						<span><?= $item['item_name'] ?></span>
+					</label>
+				</div>
+			<?php endforeach; ?>
+
+			<input type="submit" value="<?= $this->translate('reply') ?>" class="transparent_btn" />
+		</form>
+	</div>
+</div>

@@ -1,0 +1,144 @@
+@media (max-width: 1269px)
+{
+    /*---------------
+        Main styles
+    ---------------*/
+    .content
+    {
+        width: calc(100% - 271px);
+    }
+
+
+
+    /*---------------
+        Header
+    ---------------*/
+    header .info
+    {
+        padding-bottom: 5px;
+    }
+
+
+    header .links
+    {
+        display: flex;
+
+        width: 100%;
+        margin-bottom: 4px;
+
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    header .links a + a
+    {
+        margin-left: 0;
+    }
+
+
+    header .line + .line
+    {
+        margin-top: 10px;
+        justify-content: flex-end;
+    }
+
+    header .cart_link {
+        margin-top: 10px;
+    }
+
+    header .adres
+    {
+        padding-top: 13px;
+    }
+
+
+    header .cats
+    {
+        width: calc(100% - 50px);
+    }
+
+
+
+    /*---------------
+        Sidebar
+    ---------------*/
+
+
+
+    /*---------------
+        Main section
+    ---------------*/
+    .owl-carousel .owl-nav .owl-prev,
+    .products .owl-carousel .owl-nav .owl-prev
+    {
+        left: -15px;
+    }
+
+    .owl-carousel .owl-nav .owl-next,
+    .products .owl-carousel .owl-nav .owl-next
+    {
+        right: -15px;
+    }
+
+
+
+    .advantages
+    {
+        margin: 0 -15px 58px;
+        padding: 55px 15px 31px;
+    }
+
+
+
+    .lk .personal_info,
+    .lk .personal_form,
+    .lk .password_form
+    {
+        width: calc(50% + 30px);
+    }
+
+
+    .lk .links
+    {
+        width: calc(50% - 40px);
+
+        flex-wrap: wrap;
+    }
+
+    .lk .links a + a
+    {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+
+
+    .form .lines
+    {
+        margin-left: -15px;
+    }
+
+    .form .lines .line
+    {
+        width: calc(33.333% - 15px);
+        margin-left: 15px;
+    }
+
+
+
+    /*---------------
+        Footer
+    ---------------*/
+    footer .links
+    {
+        margin-left: 31px;
+    }
+
+
+
+    /*---------------
+        PopUp
+    ---------------*/
+}

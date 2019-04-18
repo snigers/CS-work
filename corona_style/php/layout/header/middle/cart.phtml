@@ -1,0 +1,36 @@
+<?php
+/**
+ * Корзина товаров в шапке сайта:
+ *   - Блок с иконкой корзины и заголовком "В корзине товаров: N"
+ *   - Всплывающее окно с товарами в корзине
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$cart = $this->getCommonVar('cart');
+$amount = (int) isset($cart['total-amount']) ? $cart['total-amount'] : 0;
+?>
+
+<div class="col-md-2 header_cart">
+	<div class="media">
+		<a href="<?= $this->getCartLink() ?>" class="media-left sticker_cart">
+			<?php if ($amount > 0): ?>
+				<span><?= $amount ?></span>
+			<?php endif ?>
+
+			<i class="sprite-header sprite-header_cart"></i>
+		</a>
+
+		<div class="media-body">
+			<h4 id="basketTooltipToggle"
+			    class="media_heading up gray_text tooltip_toggle"
+			    data-content="#basketContent"
+			>
+				<?= $this->getCartProductCountMessage($cart) ?>
+			</h4>
+		</div>
+	</div>
+</div>
+
+<?= $this->render($cart, 'layout/header/middle/cart/popup') ?>

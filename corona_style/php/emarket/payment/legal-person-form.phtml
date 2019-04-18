@@ -1,0 +1,40 @@
+<?php
+/**
+ * Оплата по безналичному расчету.
+ * @todo рефакторинг, i18n
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ * @var array $visibleFields
+ */
+
+$visibleFields = [
+	'name' => 'Наименование организации',
+	'inn' => 'ИНН',
+	'kpp' => 'КПП',
+	'email' => 'E-mail для доставки счета',
+];
+?>
+
+<?php foreach ($visibleFields as $name => $title): ?>
+	<?php foreach ($variables['form']['groups'] as $group): ?>
+		<?php if (!isset($variables['displayHeader']) || (isset($variables['displayHeader']) && $variables['displayHeader'])): ?>
+			<h4>
+				<?= $group['title'] ?>
+			</h4>
+		<?php endif; ?>
+
+		<?php foreach ($group['fields'] as $field): ?>
+			<?php if ($field['name'] === $name): ?>
+				<?php
+				if ($name === 'email') {
+					$field['value'] = $variables['customerEmail'];
+				}
+				?>
+				<div class="<?= $this->getFormFieldClass($field) ?>">
+					<?= $this->render($field, "data/form_field/{$field['type']}") ?>
+				</div>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	<?php endforeach; ?>
+<?php endforeach; ?>

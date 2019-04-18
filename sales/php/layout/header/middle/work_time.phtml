@@ -1,0 +1,27 @@
+<?php
+/**
+ * Режим работы магазина.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+$settingsContainer = $this->getSettingsContainer();
+?>
+
+<div class="col-md-3 header_work_time col-lg-2">
+	<div class="media">
+		<div class="media-left">
+			<i class="sprite-header sprite-header_clock media-object"></i>
+		</div>
+
+		<div class="media-body">
+			<h4 class="gray_text media_heading" umi:object-id="<?= $settingsContainer->getId() ?>" umi:field-name="schedule_header">
+				<?= $settingsContainer->getValue('schedule_header') ?>
+			</h4>
+
+			<span class="gray_text" umi:object-id="<?= $settingsContainer->getId() ?>" umi:field-name="schedule">
+				<?= $settingsContainer->getValue('schedule') ?>
+			</span>
+		</div>
+	</div>
+</div>

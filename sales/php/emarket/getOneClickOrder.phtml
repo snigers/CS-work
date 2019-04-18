@@ -1,0 +1,28 @@
+<?php
+/**
+ * Страница результата оформления заказа в один клик.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+$orderNumber = isset($variables['data']['orderId']) ? $variables['data']['orderId'] : null;
+?>
+
+<div class="section_capt">
+	<div class="container">
+		<div class="row">
+			<h1><?= $this->translate('one_click_order') ?></h1>
+		</div>
+	</div>
+</div>
+
+<div class="container grey_border">
+	<p>
+		<?php if ($orderNumber): ?>
+			<?= $this->getOneClickOrderSuccessMessage($orderNumber) ?>
+		<?php else: ?>
+			<?= $this->translate('one_click_order_fail') ?>
+		<?php endif; ?>
+	</p>
+</div>
