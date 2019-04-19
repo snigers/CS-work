@@ -10,8 +10,8 @@
  * @var array $variables
  */
 
-//$catalog = $this->getCatalog($variables);
-//$productList = $this->getProducts($catalog);
+$catalog = $this->getCatalog($variables);
+$productList = $this->getProducts($catalog);
 
 $category = $this->macros('catalog', 'getCategoryList', [null, $variables['page']->id,null,true]);
 $level = isset($category['total']) ? 4 : 1;

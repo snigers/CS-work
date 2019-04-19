@@ -3,13 +3,108 @@
  * Превью категории.
  *
  * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
- * @var iUmiHierarchyElement $variables
+ * @var array $variables
  */
 
-$category = $variables;
-$name = $this->escape($category->getName());
+$catalog = $this->getCatalog($variables);
+$productList = $this->getProducts($catalog);
+
+$category = $this->macros('catalog', 'getCategoryList', [null, $variables['page']->id,null,true]);
+$level = isset($category['total']) ? 4 : 1;
+$productList = $this->macros('catalog', 'getSmartCatalogCustom', [$variables['page']->id, false, false, $level]);
+
+$pagination = $this->getPagination($productList);
+$this->setCommonVar('smart_filters', $this->getSmartFilters($variables, $level));
+$getMyFiltr = $this->macros('catalog', 'getMyFiltr');
+$page = $variables['page'];
+
+$mainCategoryList = $this->macros('catalog', 'getCategoryList', [null, $variables['parents'][0]->id,null,true]);
+
+$seo_description = $this->macros('seo','getSeoFiltersData',array('content')); 
+
+
+$fieldName = $this->getFilterFieldAttribute($variables, 'value');
+
 ?>
 
+<form class="category_filtr">
+	<section class="content right">
+			<section class="sorting right">
+					<div class="item sort">
+							<div class="name"><?= $this->translate('sort') ?></div>
+
+							<select name="fields">
+									<? foreach ($getMyFiltr['fields'] as $item): ?>
+											<? $selected = (array_key_exists("is_active", $item) !== false) ? 'selected' : ''; ?>
+											<option value="<?= $item['name'] ?>" <?= $selected ?>><?= $item['title'] ?></option>
+									<? endforeach; ?>
+							</select>
+					</div>
+
+					<!-- Ниже закомменчен участок который отображает сколько 
+					выводить в каталог товаров на одной страничке (15, 30, 45)                 
+					-->
+					<div class="item limit">
+							<div class="name"><?= $this->translate('output') ?></div>
+
+							<select name="per_page">
+									<? foreach ($getMyFiltr['per_page'] as $item): ?>
+											<? $selected = (array_key_exists("is_active", $item) !== false) ? 'selected' : ''; ?>
+											<option value="<?= $item['name'] ?>" <?= $selected ?>><?= $item['title'] ?></option>
+									<? endforeach; ?>
+							</select>
+					</div>
+		
+		
+			</section>
+			<div class="clear"></div>
+
+
+			<section class="products">
+					<? if ($productList['total'] == 0): ?>
+							<p class="empty"><?= $this->translate('empty_category') ?></p>
+					<? else: ?>
+							<div class="grid">
+
+								<? if ($fieldName['valie'] === 'NEW')
+								 { ?>
+										<? foreach ($productList['lines'] as $item): ?>
+												<?= $item['html']; ?>
+										<? endforeach; ?>
+								 <? } else { ?>
+									<p class="empty"><?= $this->translate('empty_category') ?></p>
+								 <? }; ?>
+								 
+							</div>
+							<?php if($seo_description != '') : ?>
+								<div class="description">
+									<?php echo $seo_description; ?>
+								</div>
+							<?php endif; ?>
+					<? endif; ?>
+			</section>
+
+			<?= $this->render($pagination, 'library/pagination') ?>
+
+	</section>
+	<!-- End Основная часть -->
+	<div class="clear"></div>
+
+	<? if ($descr = $page->descr): ?>
+			<? if (!isset($_GET['p'])) { ?>
+	<section class="text_block">
+					<h2 class="title"><?= $page->seo_header ?></h2>
+					<?= $descr ?>
+			</section>
+	<? } ?>
+	<? endif; ?>
+
+</form>
+
+<div class="clear"></div>
+
+
+<!-- 
 <a href="<?= $this->getPath($category) ?>" class="subsection_item">
 	<div class="img">
 		<?= $this->render(
@@ -34,4 +129,4 @@ $name = $this->escape($category->getName());
 	>
 		<?= $name ?>
 	</div>
-</a>
+</a> -->

@@ -1,0 +1,85 @@
+<?php
+/**
+ * Превью категории.
+ *
+ * @var umiTemplaterPHP|ViewPhpExtension|DemomarketPhpExtension $this
+ * @var array $variables
+ */
+
+ 
+// $category = $variables;
+// $name = $this->escape($category->getName());
+
+/* 
+$catalog = $this->getCatalog($variables);
+$productList = $this->getProducts($catalog);
+
+$category = $this->macros('catalog', 'getCategoryList', [null, $variables['page']->id,null,true]);
+$level = isset($category['total']) ? 4 : 1;
+$productList = $this->macros('catalog', 'getSmartCatalogCustom', [$variables['page']->id, false, false, $level]); */
+// $fieldName = $this->getFilterFieldAttribute($variables, 'value');
+
+
+
+
+?>
+
+<form class="category_filtr">
+
+
+
+
+ <section class="content right">
+
+    <section class="products">
+      <div class="grid">
+							<div class="grid">
+
+								<? foreach ($variables['lines'] as $item): ?>
+									<? if ($variables['value'] === 'NEW')
+									{ ?>
+										<?= $item['html']; ?>											
+									<? } else { ?>
+										<p class="empty">123<?= $this->translate('empty_category') ?></p>
+									<? }; ?>
+									<? echo "123"; ?>
+								<? endforeach; ?>
+							</div>
+							<?php if($seo_description != '') : ?>
+								<div class="description">
+									<?php echo $seo_description; ?>
+								</div>
+							<?php endif; ?>
+				<!-- <a href="<?= $this->getPath($category) ?>" class="subsection_item">
+					<div class="thumb">
+						<?= $this->render(
+							[
+								'id' => $category->getId(),
+								'field_name' => 'photo',
+								'src' => $this->getPhotoPath($category),
+								'alt' => '',
+								'title' => '',
+								'width' => 200,
+								'height' => 150,
+							],
+							'library/thumbnail'
+						) ?>
+					</div>
+
+					<div class="text"
+							umi:element-id="<?=$category->getId()?>"
+							umi:field-name="name"
+							umi:empty="<?= $this->translate('empty') ?>"
+							umi:delete="delete"
+					>
+						<?= $name ?>
+					</div>
+				</a> -->
+			</div>
+		</section>
+	</section>
+
+
+</form>
+
+<div class="clear"></div>
