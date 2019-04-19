@@ -169,7 +169,7 @@ if ($page->id == 109796):
             </div>
         <? endif; ?>
 
-        <!-- <? if(isset($getProperties['pages'])): ?>
+        <? if(isset($getProperties['pages'])): ?>
             <div class="properties">
                 <? if(sizeof($getProperties['properties']['sizes'])): ?>
                     <div class="size">
@@ -204,7 +204,7 @@ if ($page->id == 109796):
                     <?php endif;?>
                 <? endif; ?>
             </div>
-        <? endif; ?> -->
+        <? endif; ?>
 
         <!-- Вывод размеров в списке -->
         <? if(sizeof($getProperties['properties']['sizes'])): ?>
@@ -214,53 +214,23 @@ if ($page->id == 109796):
 
                 
                 <select class="selectsize" id="selectSizeId" onChange="selectChange()">
-                    <? $commonQuantity = $this->getCommonQuantity($page->id); ?>
-                    <? $num = sizeof($getProperties['pages']); ?>
-                    <? $i = 0; ?>
-
                     <option value="<?= $page->id ?>">
                             Выберите размер
                     </option>
-                    
                     <? foreach($getProperties['pages'] as $label_page): ?>
-                        <? if (($commonQuantity[$i] != 0) OR ($commonQuantity[$i] === null)): ?>
-                            <? $active = isset($label_page['selected']) ? "active" : ""; ?>
-                            <option value="<?= $label_page['id'] ?>">
-                                <div>
-                                    <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
-                                        <?= $label_page['size'] ?>
-                                    </a>
-                                </div>
-                            </option>
-                        <? endif; ?>
-
-                        <? if (($commonQuantity[$i] === 0) AND ($commonQuantity[$i] !== null)): ?>
-                            <? $active = isset($label_page['selected']) ? "active" : ""; ?>
-                            <option value="<?= $label_page['id'] ?>">
-                                <div>
-                                    <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
-                                        <?= $label_page['size'] ?>
-                                        <? echo $str = " &#160&#160&#160&#160&#160Под заказ"; ?>
-                                    </a>
-                                </div>
-                            </option>
-                        <? endif; ?>
-
-                        <? if (($commonQuantity[$i] === 0) AND ($commonQuantity[$i] === null)): ?>
-                            <? $active = isset($label_page['selected']) ? "active" : ""; ?>
-                            <option value="<?= $label_page['id'] ?>">
-                                <div>
-                                    <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
-                                        <?= $label_page['size'] ?>
-                                        <? echo $str = " &#160&#160&#160&#160&#160Под заказ"; ?>
-                                    </a>
-                                </div>
-                            </option>
-                        <? endif; ?>
-
-                        <? if ($i < $num): $i = $i+1 ?>
-                        <? endif; ?>
+                        <?{
+                            $active = isset($label_page['selected']) ? "active" : "";
+                        ?>
+                        <option value="<?= $label_page['id'] ?>">
+                            <div>
+                                <a href="<?= $label_page['link'] ?>" class="label <?= $active ?>">
+                                    <?= $label_page['size'] ?>
+                                </a>
+                            </div>
+                        </option>
+                        <? } ?>
                     <? endforeach; ?>
+                    
                 </select>
                 
             </div>
@@ -297,7 +267,7 @@ if ($page->id == 109796):
     <details class="data_cart_after">
         <summary class="data_cart data_cart_hover" ><strong class="data_cart_hover">Доставка</strong></summary>
         <ul style="list-style-type: none;">
-            <li style="text-indent: 15px;">- Все товары мы отправляем курьерской службой СДЭК до двери или пункта выдачи.</li>
+            <li style="text-indent: 15px;">- <b id='selectId'></b> Все товары мы отправляем курьерской службой СДЭК до двери или пункта выдачи.</li>
             <li style="text-indent: 15px;">- По Москве товар доставляется 1-2 дня.</li>
             <li style="text-indent: 15px;">- Стоимость доставки по Москве <b id="cuca"></b> рублей.</li>
             <li style="text-indent: 15px;">- По России – 2-6 дней (в зависимости от региона).</li>

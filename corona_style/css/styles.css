@@ -2532,7 +2532,7 @@ aside .filter .reset_btn
 {
     position: relative;
 
-    width: 283px;
+    width: 75%;
     max-width: 100%;
     margin-top: 43px;
 }
@@ -2558,6 +2558,7 @@ aside .filter .reset_btn
 /* добавил курсор и бордер 0 */
 .product_info .data .quike_buy_link
 {
+    width: 100%;
     color: #fff;
     font: 18px/54px ProximaNova;
 
@@ -4076,9 +4077,10 @@ footer .creator a:hover
     flex-direction: column;
 }
 
+/* Закоментил для выпадающего списка размеров */
 .domain-1 .product_info .data .size
 {
-    margin-right: 20px;
+    /* margin-right: 20px; */
 }
 
 .domain-1 .product_info .data .size + .size .vals
@@ -4131,13 +4133,12 @@ footer .creator a:hover
 /* Стиль для выпадающего списка в карточке товара */
 .size .vals a.active{background: #f3ede9; }
 .selectsize {
+    width: 75%;
     color: #000;
     font: 14px/33px ProximaNova;
     display: inline-block;
     /* width: 46px; */
     height: 35px;
-    margin-bottom: 12px;
-    margin-left: 12px;
     cursor: pointer;
     transition: .2s linear;
     text-align: center;
