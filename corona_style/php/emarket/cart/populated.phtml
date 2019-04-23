@@ -11,6 +11,7 @@
     $settingsContainer = $this->getCommonVar('settingsContainer');
     $basketCustom = $this->macros('emarket','basketCustom');
     $purchasing_one_step = $this->macros('emarket', 'purchasing_one_step');
+    $items_upak = $variables;
 ?>
 
 
@@ -89,6 +90,73 @@
                 </td>
             </tr>
         <? endforeach; ?>
+
+        <div id="upakovka" style="display: none">
+        <p>тест</p>
+        <? /* print_r($basketCustom['items'])  */?>
+            <? foreach($items_upak as $item): ?>
+            <? $id = $item['id'] ?> <p>тест2</p>
+                <? if ($item['id'] == 407363): ?>        
+                <p>тест2</p>        
+                    <tr class="id_<?= $item['id'] ?>">
+                        <td class="image">
+                            <a href="<?= $item['page']->link ?>">
+                                <? if(array_key_exists('img',$item['product']) !== false): ?>
+                                    <img src="<?= $item['product']['img']['src'] ?>" alt="<?= $item['name'] ?>">
+                                <? else: ?>
+                                    <img src="/images/nofoto.jpg" alt="<?= $item['name'] ?>">
+                                <? endif ?>
+
+                            </a>
+                        </td>
+
+                        <td class="info">
+                            <div class="name">
+                                <a href="<?= $item['page']->link ?>"><?= $item['name'] ?></a>
+                            </div>
+
+                            <? if(sizeof($item['options']['items'])): ?>
+                                <div class="size"><?= $this->translate('sizes') ?> <?= $item['options']['items'][0]['name'] ?></div>
+                            <? endif; ?>
+
+                            <? if(isset($item['product']['sku'])): ?>
+                                <div class="articul"><?= $this->translate('sku') ?>: <?= $item['product']['sku'] ?></div>
+                            <? endif; ?>
+
+                        </td>
+                        <td class="price" data-column="<?= $this->translate('price') ?>" data-price="<?= $item['product']['price']['price_not_format'] ?>">
+                            <span class="val"><?= isset($item['price']['actual']) ? $item['price']['actual'] : 0 ?></span> <span class="currency">Ц</span>
+                            <?
+                                $old_price = isset($item['price']['original']) ? $item['price']['original'] : 0;
+                                if(!$old_price && isset($item['product']['price']['old_price'])){
+                                    $old_price = $item['product']['price']['old_price'];
+                                }
+                                ?>
+                                <? if($old_price): ?>
+                                    <div class="old"><?= $old_price ?> <span class="currency">Ц</span></div>
+                                <? endif; ?>
+                        </td>
+                        
+                        <td class="amount" data-column="<?= $this->translate('qty') ?>">
+                            <div class="box">
+                                <a href="#" class="minus update_price">-</a>
+                                <? $common_quantity = $item['page']->common_quantity ? $item['page']->common_quantity : 0; ?>
+                                <input type="text" value="<?= $item['amount'] ?>" data-minimum="1" data-maximum="<?= $common_quantity ?>" class="input" maxlength="3" data-id="<?= $item['id'] ?>"/>
+                                <a href="#" class="plus update_price">+</a>
+                            </div>
+                        </td>
+
+                        <td class="discount" data-column="<?= $this->translate('discount') ?>"></td>
+                        <td class="price total" data-column="<?= $this->translate('total') ?>"><span class="val"><?= isset($item['total-price']['actual']) ? $item['total-price']['actual'] : 0 ?></span> <span class="currency">Ц</span></td>
+
+                        <td class="delete">
+                            <a href="#" data-id="<?= $item['id'] ?>" class="delete_link"></a>
+                        </td>
+                    </tr>
+                <? endif; ?>
+            <? endforeach; ?>
+        </div>
+
         </tbody>
 
    
