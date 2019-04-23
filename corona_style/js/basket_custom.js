@@ -374,11 +374,48 @@ site.basket.init = function() {
                 basket.removeElement(id, site.basket.replace(id));
             }
 		}
+		return false;
+	});
+
+
+	$("body").on("checkeed",'.buy_link_upak',function(e){
+		var id = $(this).data("id"), size_el = $("input[name='product_size']"),size = $("input[name='product_size']:checked");
+		options = [];
+				options['amount'] = 1;
+				if($(".properties .size").length && ($(".properties .size .active").length == 0)){
+						$.fancybox.close();
+						$.fancybox.open({
+								src  : "#sizes_fail",
+								type : 'inline',
+								opts : {
+										speed: 300,focus : false,
+										margin: [20,0],
+										slideShow : false,
+										fullScreen : false,
+										thumbs : false
+								}
+						})
+		}
+				if($(size).length){
+					options['sizes'] = $(size).val();
+		}
+		if($(this).hasClass('once_upak')){
+						basket.putElement(id, options, site.basket.replace(id));
+		}else{
+						if($(this).hasClass("active")){
+								basket.putElement(id, options, site.basket.replace(id));
+						}else{
+								basket.removeElement(id, site.basket.replace(id));
+						}
+		}
 
 
 
 		return false;
 	});
+
+
+
 
     $("body").on("click",'.sample_buy_link',function(e){
         var id = $(this).data("id");

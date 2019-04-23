@@ -13,8 +13,9 @@ $field = $variables;
 		<input
 			onclick="show('upakovka')";
 			type="checkbox"
-			class="<? if ($field['name'] === "podarochnaya_upakovka") echo 'update_price'
+			class="<? if ($field['name'] === "podarochnaya_upakovka") echo 'update_price buy_link_upak once'
 			//  $basketCustom['summary']['price']['actual'] = $basketCustom['summary']['price']['actual'] + 500;?>"
+			<? if ($field['name'] === "podarochnaya_upakovka") echo 'data-id="407363"' ?>
 			id = "<?= $field['name'] ?>"
 			name="<?= $field['input_name'] ?>"
 			placeholder="<?= $field['title'] ?>"
