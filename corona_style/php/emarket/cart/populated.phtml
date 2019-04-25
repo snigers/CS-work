@@ -91,7 +91,7 @@
             </tr>
         <? endforeach; ?>
 
-        <div id="upakovka" style="display: none">
+      <!--   <div id="upakovka" style="display: none">
         <p>тест</p>
         <? /* print_r($basketCustom['items'])  */?>
             <? foreach($items_upak as $item): ?>
@@ -155,7 +155,7 @@
                     </tr>
                 <? endif; ?>
             <? endforeach; ?>
-        </div>
+        </div> -->
 
         </tbody>
 
@@ -375,7 +375,7 @@
 		   
 		   
             <div class="line margin_top">
-                <input type="checkbox" name="agree" id="agree_check" class="required" />
+                <input type="checkbox" name="agree" id="agree_check" class="required" checked="checked" />
                 <label for="agree_check"><?= $this->parseTplMacros($settingsContainer->getValue('politics_form'),$settingsContainer->id) ?></label>
             </div>
             

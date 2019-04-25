@@ -3641,11 +3641,13 @@ footer .phone
 {
     color: #fff;
     font: 24px ProximaNova;
-
+    /* vlink: #fff; */
     margin-left:230px;
 	text-align:center;
 }
-
+footer .phone a {
+    color: #fff;
+} 
 
 
 footer .info

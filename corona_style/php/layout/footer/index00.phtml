@@ -29,18 +29,18 @@ $footer_catalog.=$this->getCommonVar('domain-id');
         <div class="cont">
             <div class="phone">
 			
-			    <div class="title" style="color: #fff">Нужна помощь c заказом?</div>
+			<div class="title">Нужна помощь c заказом?</div>
 			
-                <a href="tel:<?= $settingsContainer->getValue('phone') ?>"><?= $settingsContainer->getValue('phone') ?></a>
+			<?= $settingsContainer->getValue('phone') ?>
 			
 		
-                <br>
+			<br>
 			
                <!-- <div class="email">
                     <a href="mailto:<?= $settingsContainer->getValue('mail') ?>" style="margin-top: 20px;"><?= $settingsContainer->getValue('mail') ?></a>
                 </div> -->
 				<div class="email">
-                    <a href="https://api.whatsapp.com/send?phone=79661966577" target="_blank" style="color:white;">Написать в WhatsApp</a>
+               <a href="https://api.whatsapp.com/send?phone=79661966577" target="_blank" style="color:white;">Написать в WhatsApp</a>
 				</div>
 	
 			
