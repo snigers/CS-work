@@ -48,6 +48,41 @@ if ($page->id == 109796):
                     </a>
                 </div>
             <? endforeach; ?>
+
+            <!-- Ниже идет добавление фотографий коробок в карточку товара
+                в зависимости от того на страницы Бижухи или одежды мы находимся
+            -->
+            <?php 
+            $korob = $getColors['items']['0']['link'];
+            $biju = 'bizhuteriya';
+            $odejda = 'odezhda';
+
+            $res_biju = strpos($korob, $biju);
+            $res_odejda = strpos($korob, $odejda);
+
+            if ($res_biju !== false): ?>
+                <div class="item">
+                    <a href="/images/corona/01/korobka-biju.jpg" class="fancy_img" data-fancybox="product_photo">
+                        <img class="zoomImg" src="/images/corona/01/korobka-biju.jpg" alt="<?= $page->h1 ?>" data-zoom-image="/images/corona/01/korobka-biju.jpg" />
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="/images/corona/01/korobka-biju_1.jpg" class="fancy_img" data-fancybox="product_photo">
+                        <img class="zoomImg" src="/images/corona/01/korobka-biju_1.jpg" alt="<?= $page->h1 ?>" data-zoom-image="/images/corona/01/korobka-biju_1.jpg" />
+                    </a>
+                </div>
+            <? endif; ?>
+
+            <? if ($res_odejda !== false): ?>
+                <div class="item">
+                    <a href="/images/corona/01/korobka-odejda.jpg" class="fancy_img" data-fancybox="product_photo">
+                        <img class="zoomImg" src="/images/corona/01/korobka-odejda.jpg" alt="<?= $page->h1 ?>" data-zoom-image="/images/corona/01/korobka-odejda.jpg" />
+                    </a>
+                </div>
+            <? endif; ?>
+
+            <!-- Конец блока с добавлением фото -->
+
         </div>		
 		    <p class="text_block">
                 <!-- <div style="font: ProximaNova; text-indent: 30px;">
@@ -429,7 +464,7 @@ if ($page->id == 109796):
 
 <div class="modal" id="quike_buy_modal">
     <div class="block_title"><div><?= $this->translate('buy_one_click') ?></div></div>
-
+<!--  -->
     <?= $this->renderCache($this->macros('webforms','add',[193]),'webforms/callback','webforms_add_193'); ?>
 </div>
 
